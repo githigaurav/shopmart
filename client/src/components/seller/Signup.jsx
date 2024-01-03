@@ -1,9 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { Button, Input, Typography } from "@material-tailwind/react";
+import { Button, Input, Typography, Alert } from "@material-tailwind/react";
 import { useFormik } from 'formik'
 import { signupVal } from './../validation/validation'
-
+import {useAxios} from './../useNetwork/useNetwork'
+import {ToastContainer , Zoom, toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 const Signup = () => {
   const formik = useFormik({
     initialValues: {
@@ -11,14 +13,37 @@ const Signup = () => {
       password: ''
     },
     validationSchema: signupVal,
-    onSubmit: (values) => {
-      console.log(values)
+    onSubmit: async (values) => {
+
+      const id= toast.loading("Signing in please wait")
+
+      try {     
+        const response = await useAxios("post", "seller/signup", values , )
+        toast.update(id, {render:"Login Successfully", type:'success', isLoading:false })
+        // your logic how you handle data 
+    
+      } catch (error) {
+          console.log(error)
+           // your logic how you handle error 
+      }finally{
+        setTimeout(()=>{
+          toast.dismiss(id)
+        },3000)
+      }
     }
   })
-  console.log(formik.values)
-  return (
-    <div className="flex items-center justify-center h-screen flex-col p-2">
 
+  return (
+    <>
+      <ToastContainer
+             hideProgressBar={false}
+             position="top-center"
+             closeOnClick
+             transition={Zoom}                     
+    />
+    
+    <div className="flex items-center justify-center h-screen flex-col p-2">
+    
       <div className="w-full max-w-2xl flex flex-col gap-5 px-3 py-10 bg-white h-fit items-center justify-center rounded-lg">
 
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-20 h-20 text-blue-400">
@@ -61,11 +86,13 @@ const Signup = () => {
 
           />
 
-          <Button color="blue" className="w-full"> Signup </Button>
+          <Button color="blue" className="w-full" onClick={formik.handleSubmit}> Signup </Button>
+      
           <Typography>Already have an account ?  <NavLink to={"/seller/login"} className="text-blue-300 ">Logn</NavLink></Typography>
         </div>
       </div>
     </div>
+    </>
   );
 };
 

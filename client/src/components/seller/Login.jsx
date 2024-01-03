@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import {useAxios} from './../useNetwork/useNetwork'
 
 import { Button, Input, Typography } from "@material-tailwind/react";
 import { NavLink } from "react-router-dom";
 import { useFormik } from 'formik'
 import { loginVal } from './../validation/validation'
+import {ToastContainer , Zoom, toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+
 const Login = () => {
   const formik = useFormik({
     initialValues: {
@@ -11,13 +15,33 @@ const Login = () => {
       password: ''
     },
     validationSchema: loginVal,
-    onSubmit: (values) => {
-      console.log(values)
+    onSubmit: async (values) => {
+      const id= toast.loading("Signing in please wait")
+
+      try {     
+        const response = await useAxios("post", "seller/login", values , )
+        toast.update(id, {render:"Login Successfully", type:'success', isLoading:false })
+        // your logic how you handle data 
+    
+      } catch (error) {
+          console.log(error)
+           // your logic how you handle error 
+      }finally{
+        setTimeout(()=>{
+          toast.dismiss(id)
+        },3000)
+      }
     }
   })
 
   return (
     <>
+      <ToastContainer
+             hideProgressBar={false}
+             position="top-center"
+             closeOnClick
+             transition={Zoom}                     
+    />
 
       <div className="flex items-center justify-center h-screen flex-col p-2">
         <div className="w-full max-w-2xl flex flex-col gap-5 px-3 py-10 bg-white h-fit items-center justify-center rounded-lg">
@@ -50,7 +74,7 @@ const Login = () => {
               error={formik.errors?.password && formik.touched.password ? true : false}
             />
 
-            <Button color="blue" className="w-full"> Login </Button>
+            <Button color="blue" className="w-full" onClick={formik.handleSubmit}> Login </Button>
             <Typography>Already have an account ?  <NavLink to={"/seller/signup"} className="text-blue-300">Signup</NavLink></Typography>
           </div>
         </div>
