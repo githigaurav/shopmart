@@ -3,12 +3,15 @@ require("./connection/dbconnection")
 const express = require("express")
 const server= express()
 
+// server configure
+server.use(express.json())
+
+// importing routes
+const {seller} = require("./routes/index")
 
 
-
-
-
-
+// routing
+server.use('/seller', seller)
 
 
 
