@@ -4,12 +4,17 @@ import {
   Routes,
   Route
 } from 'react-router-dom'
+
+import Signup from './components/seller/Signup'
+import Login from './components/seller/Login'
+
 const App = () => {
   return (
    <>
       <Router>
         <Routes>
-          <Route path='/' element={<h1>Routes Configured</h1>}/>
+          <Route path='/seller/signup' element={<Signup/>}/>
+          <Route path='/seller/login' element={<Login/>}/>
         </Routes>
       </Router>
    </>
