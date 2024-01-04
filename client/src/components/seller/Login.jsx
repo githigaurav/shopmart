@@ -9,6 +9,7 @@ import {ToastContainer , Zoom, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
+  const[loading ,setLoding]=useState(false)
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -16,20 +17,23 @@ const Login = () => {
     },
     validationSchema: loginVal,
     onSubmit: async (values) => {
+      setLoding(true)
       const id= toast.loading("Signing in please wait")
-
       try {     
         const response = await useAxios("post", "seller/login", values , )
-        toast.update(id, {render:"Login Successfully", type:'success', isLoading:false })
+        toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })
         // your logic how you handle data 
     
-      } catch (error) {
-          console.log(error)
+      }catch (error) {
+        setLoding(true)
+        toast.update(id, {render:error?.response.data?.message, type:'error', isLoading:false }) 
+        console.log(error)
            // your logic how you handle error 
       }finally{
         setTimeout(()=>{
+          setLoding(false)
           toast.dismiss(id)
-        },3000)
+        },2000)
       }
     }
   })
@@ -74,7 +78,7 @@ const Login = () => {
               error={formik.errors?.password && formik.touched.password ? true : false}
             />
 
-            <Button color="blue" className="w-full" onClick={formik.handleSubmit}> Login </Button>
+            <Button color="blue" className="w-full" onClick={formik.handleSubmit} disabled={loading? true : false}> Login </Button>
             <Typography>Already have an account ?  <NavLink to={"/seller/signup"} className="text-blue-300">Signup</NavLink></Typography>
           </div>
         </div>

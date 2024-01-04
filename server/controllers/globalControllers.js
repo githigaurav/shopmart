@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken")
 
 const isDataExists = async(email ,schema)=>{
     const response = await schema.find({email:email})
-    return response
+    return response //[]
  
 }
 
@@ -28,5 +28,16 @@ const jwtToken = async (data)=>{
     return token   
 }
 
+const verifyPassword = async(password, hash)=>{    
+    const response = await bcrypt.compare(password , hash);
+    return response    
+}
 
-module.exports={isDataExists , addToMongoDb , encryptPassword , jwtToken}
+
+module.exports={
+    isDataExists,
+    addToMongoDb ,
+    encryptPassword ,
+    jwtToken,
+    verifyPassword
+}

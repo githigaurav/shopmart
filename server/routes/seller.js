@@ -11,7 +11,8 @@ const{
     isDataExists,
     addToMongoDb,
     encryptPassword,
-    jwtToken
+    jwtToken,
+    verifyPassword
 }= require("./../controllers/globalControllers")
 
 seller.post("/signup", tryCatch(async(req, res)=>{
@@ -31,9 +32,22 @@ seller.post("/signup", tryCatch(async(req, res)=>{
     if(!!addData.length){
         return ApiResponse.success(addData, "User Register successfully", 201).send(res)
     }
+
 }))
 seller.post("/login", tryCatch(async(req,res)=>{
-   res.status(200).json("Successfully login")
+    const {email, password}= req.body
+    const isExists = await isDataExists(email , Seller)
+    if(!!isExists.length){
+        const matchPasswod = await verifyPassword(password, isExists[0]?.password ) 
+        if(matchPasswod){
+            const genToken = await jwtToken({id:isExists[0]?._id.toString()})
+            res.cookie('token', genToken)
+            return ApiResponse.success([], "Login successfully" , 200).send(res)
+        }else{
+            return ApiResponse.failure([],"Password is not matched", 401).send(res)
+        }        
+    }
+    return ApiResponse.failure([],"Email doesn't exists", 401).send(res)
 }))
 seller.get("/dashboard", tryCatch(async(req,res)=>{
     
