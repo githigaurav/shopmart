@@ -7,7 +7,7 @@ const cors = require("cors")
 // server configuration
 server.use(express.json())
 server.use(cors({
-    origin:[true, "https://shopmart-liard.vercel.app/"],
+    origin:["http://localhost:3000", "https://shopmart-liard.vercel.app" ,"https://shopmart-liard.vercel.app"],
     credentials:true
 }))
 // importing routes
