@@ -13,7 +13,6 @@ server.use(cors({
 // importing routes
 const {seller} = require("./routes/index")
 
-
 // settingup routes
 server.use('/seller', seller)
 server.get("/",(req,res)=>{
