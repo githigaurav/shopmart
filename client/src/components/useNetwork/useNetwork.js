@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const networkPath="http://localhost:3001"
+const networkPath=window.location.host === 'local' ? "http://localhost:3001" : "https://shopmart-server.vercel.app/"
 export const useAxios = async (
     type,
     networkURL,
