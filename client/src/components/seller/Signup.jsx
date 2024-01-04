@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Button, Input, Typography, Alert } from "@material-tailwind/react";
 import { useFormik } from 'formik'
@@ -7,6 +7,7 @@ import {useAxios} from './../useNetwork/useNetwork'
 import {ToastContainer , Zoom, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 const Signup = () => {
+  const[loading ,setLoding]=useState(false)
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -14,21 +15,22 @@ const Signup = () => {
     },
     validationSchema: signupVal,
     onSubmit: async (values) => {
-
-      const id= toast.loading("Signing in please wait")
+      setLoding(true)
+      const id= toast.loading("Please wait user is being registred")
 
       try {     
         const response = await useAxios("post", "seller/signup", values , )
-        toast.update(id, {render:"Login Successfully", type:'success', isLoading:false })
-        // your logic how you handle data 
+        toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })
+        // write your logic here what you want to do after this 
     
-      } catch (error) {
-          console.log(error)
-           // your logic how you handle error 
+      } catch (error) { 
+        setLoding(true)
+          toast.update(id, {render:error?.response.data?.message, type:'error', isLoading:false })  
       }finally{
         setTimeout(()=>{
+          setLoding(false)
           toast.dismiss(id)
-        },3000)
+        },2000)
       }
     }
   })
@@ -86,7 +88,7 @@ const Signup = () => {
 
           />
 
-          <Button color="blue" className="w-full" onClick={formik.handleSubmit}> Signup </Button>
+          <Button color="blue" className="w-full" onClick={formik.handleSubmit} disabled={loading? true : false}> Signup </Button>
       
           <Typography>Already have an account ?  <NavLink to={"/seller/login"} className="text-blue-300 ">Logn</NavLink></Typography>
         </div>

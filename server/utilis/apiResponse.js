@@ -1,4 +1,4 @@
-class ApiResonse {
+class ApiResponse {
     constructor(data, message, statusCode){
         this.data=data
         this.message=message
@@ -6,11 +6,11 @@ class ApiResonse {
     }
     
     static success(data, message, statusCode){
-        return new ApiResonse(data, message, statusCode)
+        return new ApiResponse(data, message, statusCode)
     }
     
     static failure (data, message, statusCode){
-        return new ApiResonse(data, message, statusCode)
+        return new ApiResponse(data, message, statusCode)
     }
 
     send(res){
@@ -18,4 +18,4 @@ class ApiResonse {
     }
 }
 
-module.exports= ApiResonse
+module.exports= ApiResponse
