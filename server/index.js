@@ -16,9 +16,9 @@ const {seller} = require("./routes/index")
 
 // settingup routes
 server.use('/seller', seller)
-
-
-
+server.get("/",(req,res)=>{
+    res.status(200).json({message:"Server Side is Working fine"})
+})
 
 const PORT=process.env.PORT || 4001
 server.listen(PORT,()=>{
