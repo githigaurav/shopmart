@@ -12,16 +12,14 @@ import Upload from './Upload'
 import Animation from './../animation/Animation'
 const AddProduct = () => {
     const[file, setFile]=useState(null)
-    if(file !== undefined && file !==null){
-        console.log(file["length"])
-    }
+    
   return (
     <>  
         <Animation>
-          <div className='flex w-full items-center justify-center'>
-              <Card className="w-full max-w-[40rem] flex flex-col p-2 ">
-                  <div className='flex'>
-                      <div className="flex w-72 flex-col gap-6 p-2 m-2 mx-10">
+          <div className='flex items-center justify-center'>
+              <Card className="w-full max-w-[40rem] max-h-[700px] px-5 py-10 sm:px-10 sm:py-20 overflow-auto ">
+                  <div className='flex flex-col sm:flex-row gap-10'>
+                      <div className="flex flex-col gap-5">
                           <Input variant="standard" label="Product Name" placeholder="" />
                           <Input variant="standard" label="Brand" placeholder="" />
                           <Input variant="standard" label="Price" placeholder="" />
@@ -49,7 +47,7 @@ const AddProduct = () => {
                           </Select>
 
                       </div>
-                      <div className='flex w-72 flex-col gap-6 p-2 m-2 mx-10'>
+                      <div className='flex flex-col gap-5'>
                           <Select label="Discount">
                               <Option>10%</Option>
                               <Option>20%</Option>
@@ -58,7 +56,7 @@ const AddProduct = () => {
 
                           <Input variant="standard" label="Quantity" placeholder="" />
                           <Textarea label="Product Discription" resize={true} />
-                          <div>
+                          <div className='flex justify-center'>
                               <Upload
                                   uploadLable="Upload file"
                                   onFileUpload={(file) => setFile(file)}
@@ -71,7 +69,7 @@ const AddProduct = () => {
                   <Button>Upload</Button>
               </Card>
           </div>
-          </Animation>
+        </Animation>
             
     </>
   )

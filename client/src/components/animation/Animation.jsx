@@ -10,7 +10,7 @@ const animate ={
 function Animation({children}) {
   return (
     <>
-        <motion.div transition={{duration:0.5}} variants={animate} initial="initial" animate="animate" exit="exit" style={{width:'100%'}}  >
+        <motion.div transition={{duration:0.5}} variants={animate} initial="initial" animate="animate" exit="exit" >
                 {children}
         </motion.div>
     </>
