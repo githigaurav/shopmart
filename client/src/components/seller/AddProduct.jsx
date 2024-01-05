@@ -60,7 +60,7 @@ const AddProduct = () => {
                               <Upload
                                   uploadLable="Upload file"
                                   onFileUpload={(file) => setFile(file)}
-                                  uploadStyle="max-w-[256px] max-h-[250px] py-20 text-center"
+                                  uploadStyle=" w-full h-fit"
                                   file={file !== null && file !== undefined && file["length"] === 1 ? (URL.createObjectURL(file[0])) : null}
                               />
                           </div>

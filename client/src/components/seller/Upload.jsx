@@ -19,7 +19,7 @@ function Upload({
       <label
         htmlFor="fileUpload"
         className={` flex flex-col justify-center items-center cursor-pointer  border border-dotted   overflow-hidden ${uploadStyle} `}>
-        <img src={file !== null ? file : "/upload.png"} alt="uploadIcon" className='block bg-white' />
+        <img src={file !== null ? file : "/upload.png"} alt="uploadIcon" className='block bg-white max-w-[200px] h-fit' />
         {/* <p>{uploadLable}</p> */}
       </label>
     </>

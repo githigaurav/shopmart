@@ -25,7 +25,7 @@ import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import AddProduct from './AddProduct';
 const Dashboard = () => {
     const [open, setOpen] = useState(0);
-    const [tab , setTab]=useState('dashboard')
+    const [tab , setTab]=useState('addproduct')
     const handleOpen = (value) => {
         setOpen(open === value ? 0 : value);
     };
