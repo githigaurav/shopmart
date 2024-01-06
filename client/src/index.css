@@ -77,4 +77,29 @@ button:focus-visible {
   margin: 0;
   box-sizing: border-box;
 }
+body{
+overflow: hidden;
+
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+
+::-webkit-scrollbar-thumb {
+  background: #9db7fd;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+}
+
 

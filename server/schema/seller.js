@@ -25,7 +25,7 @@ const sellerSchema = new mongoose.Schema({
         phone:{
             type:Number,
             default:0
-        },
+        }
 
     },
     companyInfo:{
@@ -40,6 +40,17 @@ const sellerSchema = new mongoose.Schema({
         companyAddress:{
             type:String,
             default:''
+        },
+        bankDetails:{
+            bankName:{
+                type: String,
+            },
+            ifsc:{
+                type:String
+            },
+            accountNumber:{
+                type:Number
+            }
         }
     },
     products:[
