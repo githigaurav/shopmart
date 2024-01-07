@@ -8,6 +8,7 @@ import {
 import Signup from './components/seller/Signup'
 import Login from './components/seller/Login'
 import Dashboard from './components/seller/Dashboard'
+import PrivateRoutes from './PrivateRoutes'
 
 const App = () => {
   return (
@@ -16,7 +17,10 @@ const App = () => {
         <Routes>
           <Route path='/seller/signup' element={<Signup/>}/>
           <Route path='/seller/login' element={<Login/>}/>
-          <Route path='/seller/dashboard' element={<Dashboard/>}/>
+          <Route element={<PrivateRoutes/>}>
+            <Route path="/seller/dashboard" element={<Dashboard/>}/>
+          </Route>
+          {/* <Route path='/seller/dashboard' element={<Dashboard/>}/> */}
         </Routes>
       </Router>
    </>

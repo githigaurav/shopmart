@@ -3,6 +3,7 @@ require("./connection/dbconnection")
 const express = require("express")
 const server= express()
 const cors = require("cors")
+var cookie = require('cookie-parser')
 
 // server configuration
 server.use(express.json())
@@ -10,6 +11,7 @@ server.use(cors({
     origin:["http://localhost:3000", "https://shopmart-liard.vercel.app" ,"https://shopmart-liard.vercel.app"],
     credentials:true
 }))
+server.use(cookie())
 // importing routes
 const {seller} = require("./routes/index")
 

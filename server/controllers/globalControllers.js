@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken")
 const isDataExists = async(email ,schema)=>{
     const response = await schema.find({email:email})
     return response //[]
- 
 }
 
 const addToMongoDb = async (info, schema) => {
@@ -18,8 +17,8 @@ const addToMongoDb = async (info, schema) => {
 }
 
 const encryptPassword = async(plainPassword)=>{
-        const result = await bcrypt.hash(plainPassword,10);
-        return result    
+        const response = await bcrypt.hash(plainPassword,10);
+        return response    
 }
 
 
@@ -33,11 +32,21 @@ const verifyPassword = async(password, hash)=>{
     return response    
 }
 
+const verifyToken = async (token)=>{
+    const response = jwt.verify(token, process.env.secrectKey)
+    return response
+}
 
+const isExistsById=async (id , schema)=>{
+    const response = await schema.findById(id,{ password: 0, createdAt: 0, updatedAt: 0 , __v:0}) 
+    return [response]
+}
 module.exports={
     isDataExists,
     addToMongoDb ,
     encryptPassword ,
     jwtToken,
-    verifyPassword
+    verifyPassword,
+    verifyToken,
+    isExistsById
 }

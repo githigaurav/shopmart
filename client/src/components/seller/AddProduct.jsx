@@ -15,8 +15,10 @@ const newCategory={
     shoes:["Male Shoes", "Female Shoes"],
     clothes:["Male clohtes","Female clothes"]
 }
+
 const AddProduct = () => {
     const[file, setFile]=useState(null)
+    const [progress, setProgress] = useState(0); // state for progress tracking
     const formik = useFormik({
         initialValues:{
             name:'',
@@ -34,7 +36,7 @@ const AddProduct = () => {
         },
         validationSchema:addProduct,
         onSubmit:(value)=>{
-
+            
         }
     })
 
@@ -43,6 +45,7 @@ const AddProduct = () => {
   return (
     <>  
         <Animation>
+    
           <div className='flex items-center justify-center'>
               <Card className="w-full max-w-[40rem] h-dvh px-5 py-10 sm:px-10 sm:py-10 overflow-x-hidden max-h-[600px] gap-5 rounded-md ">
                   <div className='flex flex-col sm:flex-row gap-10 items-center justify-center'>
@@ -94,7 +97,6 @@ const AddProduct = () => {
                           </div>
                       </div>
                   </div>
-           
                   <button className='bg-blue-600  text-white py-2 rounded-xl cursor-pointer hover:bg-blue-800' onClick={formik.handleSubmit}>Upload</button>
               </Card>
           </div>

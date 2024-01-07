@@ -12,18 +12,22 @@ const{
     addToMongoDb,
     encryptPassword,
     jwtToken,
-    verifyPassword
+    verifyPassword,
+    isExistsById
 }= require("./../controllers/globalControllers")
 
+// importing middleware
+const {verify}=require("../middleware/globalMiddleware")
+
 seller.post("/signup", tryCatch(async(req, res)=>{
+
     const {email, password}= req.body
     const isExists = await isDataExists(email , Seller)
 
     if(!!isExists.length){
        return ApiResponse.failure([],"Email is already exists", 409).send(res)
     }
-    
-    const encryptPass = await encryptPassword(password)
+    const encryptPass = await encryptPassword(password)    
     const payload = {...req.body , password:encryptPass}
     const addData = await addToMongoDb(payload , Seller)
     const genToken = await jwtToken({id:addData[0]._id.toString()})
@@ -49,8 +53,10 @@ seller.post("/login", tryCatch(async(req,res)=>{
     }
     return ApiResponse.failure([],"Email doesn't exists", 401).send(res)
 }))
-seller.get("/dashboard", tryCatch(async(req,res)=>{
-    
+seller.get("/dashboard",verify, tryCatch(async(req,res)=>{
+    const {id}=req.info
+    const isExists = await isExistsById (id, Seller)
+    ApiResponse.success(isExists, "Data fetched succcessfully", 200).send(res)
 }))
 seller.post("/addproduct", tryCatch(async(req,res)=>{
     

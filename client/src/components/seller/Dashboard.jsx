@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import {
     Card,
     Typography,
@@ -23,17 +23,51 @@ import {
 } from "@heroicons/react/24/solid";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import AddProduct from './AddProduct';
+import ProductList from './ProductList';
+import Cookie from 'js-cookie'
+import { useNavigate } from 'react-router-dom';
+import {getDashboard} from './../useNetwork/useNetwork'
+import Profile from './Profile';
+import {ToastContainer , Zoom, toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+
 const Dashboard = () => {
+    const [data=[], loading=false ,error='']= getDashboard()
+    const navigate=useNavigate()
     const [open, setOpen] = useState(0);
-    const [tab , setTab]=useState('addproduct')
+    const [tab , setTab]=useState('profile')
     const handleOpen = (value) => {
         setOpen(open === value ? 0 : value);
     };
-
     
 
+    const handleLogout=()=>{
+        Cookie.remove("token")
+        const id = toast.success("Logout Successfully")
+            setTimeout(()=>{
+                toast.dismiss(id)
+                navigate("/seller/login")
+        },3000)
+    }
+    if(error === 'Session has been expired' || error === 'Invalid token'){
+       const id = toast.error(error)
+        setTimeout(()=>{
+        toast.dismiss(id)
+        navigate("/seller/login")
+       },3000)
+    } 
+
+    
     return (
         <>
+            <ToastContainer
+             autoClose={3000}
+             hideProgressBar={false}
+             position="top-center"
+             closeOnClick={false}
+             pauseOnHover={false}
+             transition={Zoom}                     
+            />
             <div className='flex overflow-hidden   '>
                 <div>
                     <Card className="w-full max-w-[20rem] hidden rounded-none h-dvh sm:flex p-4 shadow-xl shadow-blue-gray-900/5">
@@ -110,7 +144,7 @@ const Dashboard = () => {
                                             </ListItemPrefix>
                                             Pending Products
                                         </ListItem>
-                                        <ListItem>
+                                        <ListItem onClick={()=>{setTab('productList')}}>
                                             <ListItemPrefix>
                                                 <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                                             </ListItemPrefix>
@@ -140,7 +174,7 @@ const Dashboard = () => {
                                 </ListItemPrefix>
                                 Settings
                             </ListItem>
-                            <ListItem>
+                            <ListItem onClick={handleLogout}>
                                 <ListItemPrefix>
                                     <PowerIcon className="h-5 w-5" />
                                 </ListItemPrefix>
@@ -170,7 +204,9 @@ const Dashboard = () => {
                         {/* render your component here  */}
                         {
                             tab === 'dashboard' ?   <h1>This is Dashboard</h1> :  
-                            tab === 'addproduct' ? <AddProduct/> : null
+                            tab === 'addproduct' ? <AddProduct/> : 
+                            tab === 'productList' ? <ProductList/> : 
+                            tab === 'profile' ?  <Profile data={data ? data : ''}/> : null
                         }
                     </div>
                     </div>
