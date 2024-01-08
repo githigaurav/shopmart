@@ -22,10 +22,11 @@ const Signup = () => {
         const response = await useAxios("post", "seller/signup", values , )
         toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })
         // write your logic here what you want to do after this 
-    
+        console.log(response)
       } catch (error) { 
         setLoding(true)
           toast.update(id, {render:error?.response.data?.message, type:'error', isLoading:false })  
+          console.log(error)
       }finally{
         setTimeout(()=>{
           setLoding(false)

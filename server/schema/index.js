@@ -1,3 +1,4 @@
 const Seller = require('./seller')
 const Product = require("./product")
-module.exports={Seller,Product}
+const User = require("./user")
+module.exports={Seller,Product, User}

@@ -21,15 +21,14 @@ const Login = () => {
       setLoding(true)
       const id= toast.loading("Signing in please wait")
       try {     
-        const response = await useAxios("post", "user/login", values , )
+        const response = await useAxios("post", "seller/login", values , )
         toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })
-        navigate("/seller/dashboard")
+       
     
       }catch (error) {
         setLoding(true)
         toast.update(id, {render:error?.response.data?.message, type:'error', isLoading:false }) 
-        console.log(error)
-           // your logic how you handle error 
+       
       }finally{
         setTimeout(()=>{
           setLoding(false)

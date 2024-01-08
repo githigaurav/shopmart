@@ -14,12 +14,11 @@ const Signup = () => {
       password: ''
     },
     validationSchema: signupVal,
-    onSubmit: async (values) => {
-      setLoding(true)
+    onSubmit: async (values) => { setLoding(true)
       const id= toast.loading("Please wait user is being registred")
 
       try {     
-        const response = await useAxios("post", "user/signup", values , )
+        const response = await useAxios("post", "seller/signup", values , )
         toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })
         // write your logic here what you want to do after this 
     

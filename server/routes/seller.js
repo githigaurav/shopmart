@@ -1,5 +1,5 @@
 const seller=require("express").Router()
-const {mongoose} = require ('mongoose');
+
 // importing utils
 const ApiResponse = require('./../utilis/apiResponse')
 const tryCatch = require('./../utilis/tryCatch')
