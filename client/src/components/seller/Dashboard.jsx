@@ -35,7 +35,7 @@ const Dashboard = () => {
     const [data=[], loading=false ,error='']= getDashboard()
     const navigate=useNavigate()
     const [open, setOpen] = useState(0);
-    const [tab , setTab]=useState('profile')
+    const [tab , setTab]=useState('addproduct')
     const handleOpen = (value) => {
         setOpen(open === value ? 0 : value);
     };

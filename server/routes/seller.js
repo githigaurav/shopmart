@@ -4,7 +4,7 @@ const ApiResponse = require('./../utilis/apiResponse')
 const tryCatch = require('./../utilis/tryCatch')
 
 // importing DB
-const{Seller} = require("../schema/index")
+const{Seller,Product} = require("../schema/index")
 
 // importing global controllers
 const{
@@ -13,11 +13,13 @@ const{
     encryptPassword,
     jwtToken,
     verifyPassword,
-    isExistsById
+    isExistsById,
+    uploadToCloud
 }= require("./../controllers/globalControllers")
 
 // importing middleware
-const {verify}=require("../middleware/globalMiddleware")
+const {verify, handleFile}=require("../middleware/globalMiddleware")
+
 
 seller.post("/signup", tryCatch(async(req, res)=>{
 
@@ -58,7 +60,15 @@ seller.get("/dashboard",verify, tryCatch(async(req,res)=>{
     const isExists = await isExistsById (id, Seller)
     ApiResponse.success(isExists, "Data fetched succcessfully", 200).send(res)
 }))
-seller.post("/addproduct", tryCatch(async(req,res)=>{
+
+seller.post("/addproduct", verify,handleFile, tryCatch(async(req,res)=>{
+    
+    const fileURL = await uploadToCloud(req)
+    const productInfo={...req.body , file:fileURL.url}
+    const response = await addToMongoDb(productInfo , Product)
+    console.log(response)
+    res.status(200).json({message:"file received"})
+    
     
 }))
 

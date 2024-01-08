@@ -1,3 +1,3 @@
 const Seller = require('./seller')
-
-module.exports={Seller}
+const Product = require("./product")
+module.exports={Seller,Product}

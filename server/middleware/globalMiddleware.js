@@ -2,7 +2,8 @@
 // importing necessary controllers
 const {verifyToken} = require("../controllers/globalControllers")
 const ApiResponse = require("../utilis/apiResponse")
-
+const multer = require("multer")
+const path = require('path')
 
 const verify = async(req, res, next)=>{
    try {
@@ -25,6 +26,28 @@ const verify = async(req, res, next)=>{
     
 }
 
+const handleFile = function(req, res, next){
 
+   const filePath = path.join(__dirname, "./../tempImg")
 
-module.exports={verify}
+   const storage = multer.diskStorage({
+      destination: function (req, file, cb) {
+        cb(null, filePath)
+      },
+      filename: function (req, file, cb) {
+        cb(null, Date.now() + file.originalname)
+      }
+    })
+  
+    const upload = multer({ storage: storage }).single('file');
+  
+    upload(req, res, async function (err) {
+      if (err) {
+         ApiResponse.failure([], "Error while uploading file", 409).send(res)
+      }
+      next()
+    })
+  
+}
+
+module.exports={verify , handleFile}

@@ -11,10 +11,12 @@ import Upload from './Upload'
 import { addProduct } from '../validation/validation'
 import Animation from './../animation/Animation'
 import {useFormik} from 'formik'
+import axios from 'axios'
 const newCategory={
     shoes:["Male Shoes", "Female Shoes"],
     clothes:["Male clohtes","Female clothes"]
 }
+
 
 const AddProduct = () => {
     const[file, setFile]=useState(null)
@@ -35,11 +37,12 @@ const AddProduct = () => {
             file:null
         },
         validationSchema:addProduct,
-        onSubmit:(value)=>{
-            
+        onSubmit:async (value)=>{            
+            const data = {...value, file: value.file[0]}
+            const response = await  axios.post("http://localhost:3001/seller/addproduct", data , {headers: {'Content-Type': 'multipart/form-data'} , withCredentials:true})
+          console.log(response)
         }
     })
-
 
 
   return (
@@ -90,14 +93,16 @@ const AddProduct = () => {
                           <div className='flex justify-center'>
                               <Upload
                                   uploadLable="Upload file"
-                                  onFileUpload={(file) => setFile(file)}
+                                //   onFileUpload={(file) => setFile(file)}
+                                 onFileUpload={(file) => formik.setFieldValue('file', file)}
                                   uploadStyle=" w-full h-fit"
-                                  file={file !== null && file !== undefined && file["length"] === 1 ? (URL.createObjectURL(file[0])) : null}
+                                //   file={file !== null && file !== undefined && file["length"] === 1 ? (URL.createObjectURL(file[0])) : null}
+                                file={formik.values.file !== null && formik.values.file !== undefined && formik.values.file["length"] === 1 ? (URL.createObjectURL(formik.values.file[0])) : null}
                               />
                           </div>
                       </div>
                   </div>
-                  <button className='bg-blue-600  text-white py-2 rounded-xl cursor-pointer hover:bg-blue-800' onClick={formik.handleSubmit}>Upload</button>
+                  <button className='bg-blue-600  text-white py-2 rounded-xl cursor-pointer hover:bg-blue-800' onClick={formik.handleSubmit} type='submit'>Upload</button>
               </Card>
           </div>
         </Animation>
