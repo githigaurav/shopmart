@@ -33,12 +33,10 @@ seller.post("/signup", tryCatch(async(req, res)=>{
     const encryptPass = await encryptPassword(password)    
     const payload = {...req.body , password:encryptPass}
     const addData = await addToMongoDb(payload , Seller)
-    const genToken = await jwtToken({id:addData[0]._id})
+    const genToken = await jwtToken({id:addData._id})
     res.cookie("token", genToken)
+    return ApiResponse.success(addData, "User Register successfully", 201).send(res)
 
-    if(!!addData.length){
-        return ApiResponse.success(addData, "User Register successfully", 201).send(res)
-    }
 
 }))
 seller.post("/login", tryCatch(async(req,res)=>{

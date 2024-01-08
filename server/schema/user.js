@@ -34,7 +34,12 @@ const userSchema = new mongoose.Schema({
             type:Schema.Types.ObjectId,
             ref:'Order'
         }
-    ]
+    ],
+    accountStatus:{
+        type:String,
+        enum:["Pending","Approved","Suspended"],
+        default:'Approved'
+    }
 },
 {timestamps:true},
 {collection:'user'})

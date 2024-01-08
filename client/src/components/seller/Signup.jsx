@@ -6,7 +6,9 @@ import { signupVal } from './../validation/validation'
 import {useAxios} from './../useNetwork/useNetwork'
 import {ToastContainer , Zoom, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 const Signup = () => {
+  const navigate=useNavigate()
   const[loading ,setLoding]=useState(false)
   const formik = useFormik({
     initialValues: {
@@ -21,8 +23,7 @@ const Signup = () => {
       try {     
         const response = await useAxios("post", "seller/signup", values , )
         toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })
-        // write your logic here what you want to do after this 
-        console.log(response)
+        navigate("/seller/dashboard")
       } catch (error) { 
         setLoding(true)
           toast.update(id, {render:error?.response.data?.message, type:'error', isLoading:false })  

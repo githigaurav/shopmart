@@ -33,10 +33,8 @@ user.post("/signup", tryCatch(async(req, res)=>{
      const addData = await addToMongoDb(payload , User)
      const genToken = await jwtToken({id:addData._id})
      res.cookie("token", genToken)
-     
-     if(!!addData.length){
-        return ApiResponse.success(addData, "User Register successfully", 201).send(res)
-    }
+     return ApiResponse.success(addData, "User Register successfully", 201).send(res)
+    
 }))
 
 user.post("/login", tryCatch(async(req, res)=>{
@@ -56,6 +54,10 @@ user.post("/login", tryCatch(async(req, res)=>{
 }))
 user.get("/dashboard", tryCatch(async(req, res)=>{
     console.log(req.body)
+}))
+
+user.post("/order",tryCatch(async(req, res)=>{
+        console.log(req.body)
 }))
 
 
