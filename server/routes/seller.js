@@ -81,8 +81,7 @@ seller.post("/addproduct", verify,handleFile, tryCatch(async(req,res)=>{
         //* sending response to client
         ApiResponse.success(response, "Product Added Successfully" , 201).send(res)
 
-    } 
-    
+    }     
     
     
 }))

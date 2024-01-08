@@ -13,10 +13,11 @@ server.use(cors({
 }))
 server.use(cookie())
 // importing routes
-const {seller} = require("./routes/index")
+const {seller, user} = require("./routes/index")
 
 // settingup routes
 server.use('/seller', seller)
+server.use('/user', user)
 server.get("/",(req,res)=>{
     res.status(200).json({message:"Server Side is Working fine"})
 })
