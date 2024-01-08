@@ -48,6 +48,10 @@ const productSchema= new mongoose.Schema({
     file:{
         type:String,
         required:[true, "file url is required"],
+    },
+    seller:{
+        type:Schema.Types.ObjectId,
+        ref:'Seller'
     }
 
 },

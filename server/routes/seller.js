@@ -1,4 +1,5 @@
 const seller=require("express").Router()
+const {mongoose} = require ('mongoose');
 // importing utils
 const ApiResponse = require('./../utilis/apiResponse')
 const tryCatch = require('./../utilis/tryCatch')
@@ -32,7 +33,7 @@ seller.post("/signup", tryCatch(async(req, res)=>{
     const encryptPass = await encryptPassword(password)    
     const payload = {...req.body , password:encryptPass}
     const addData = await addToMongoDb(payload , Seller)
-    const genToken = await jwtToken({id:addData[0]._id.toString()})
+    const genToken = await jwtToken({id:addData[0]._id})
     res.cookie("token", genToken)
 
     if(!!addData.length){
@@ -46,7 +47,7 @@ seller.post("/login", tryCatch(async(req,res)=>{
     if(!!isExists.length){
         const matchPasswod = await verifyPassword(password, isExists[0]?.password ) 
         if(matchPasswod){
-            const genToken = await jwtToken({id:isExists[0]?._id.toString()})
+            const genToken = await jwtToken({id:isExists[0]?._id})
             res.cookie('token', genToken)
             return ApiResponse.success([], "Login successfully" , 200).send(res)
         }else{
@@ -56,18 +57,32 @@ seller.post("/login", tryCatch(async(req,res)=>{
     return ApiResponse.failure([],"Email doesn't exists", 401).send(res)
 }))
 seller.get("/dashboard",verify, tryCatch(async(req,res)=>{
-    const {id}=req.info
+    const {id} = req.info
     const isExists = await isExistsById (id, Seller)
     ApiResponse.success(isExists, "Data fetched succcessfully", 200).send(res)
 }))
 
+
+//* Request require token for verification and file for uploading
 seller.post("/addproduct", verify,handleFile, tryCatch(async(req,res)=>{
-    
+    const {id}=req.info  
+    //* uploading file to cloudinary  
     const fileURL = await uploadToCloud(req)
-    const productInfo={...req.body , file:fileURL.url}
-    const response = await addToMongoDb(productInfo , Product)
-    console.log(response)
-    res.status(200).json({message:"file received"})
+
+    if(fileURL.url){
+        //* updating file url which received from cloudinary after uplaoding image
+        const productInfo={...req.body , file:fileURL.url}
+        //* adding product information object in mongodb
+        const response = await addToMongoDb(productInfo , Product)
+        //* Pushing Product Object Id to seller Products Array
+        const addProductToSeller = await Seller.findByIdAndUpdate(id, {$push:{products:response._id}})
+        //* Updating newly created product seller using seller Object Id
+        const addProductOwner = await Product.findByIdAndUpdate(response?._id.toString(), {$set:{seller:addProductToSeller._id}},{runValidator:false})
+        //* sending response to client
+        ApiResponse.success(response, "Product Added Successfully" , 201).send(res)
+
+    } 
+    
     
     
 }))
