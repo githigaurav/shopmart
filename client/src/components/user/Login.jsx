@@ -23,12 +23,11 @@ const Login = () => {
       try {     
         const response = await useAxios("post", "seller/login", values , )
         toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })
-       
-    
+        // user logic will be here
       }catch (error) {
         setLoding(true)
         toast.update(id, {render:error?.response.data?.message, type:'error', isLoading:false }) 
-       
+        
       }finally{
         setTimeout(()=>{
           setLoding(false)

@@ -46,7 +46,7 @@ seller.post("/login", tryCatch(async(req,res)=>{
         const matchPasswod = await verifyPassword(password, isExists[0]?.password ) 
         if(matchPasswod){
             const genToken = await jwtToken({id:isExists[0]?._id})
-            res.cookie('token', genToken)
+            res.cookie('token', genToken ,{sameSite: 'None', secure: true})
             return ApiResponse.success([], "Login successfully" , 200).send(res)
         }else{
             return ApiResponse.failure([],"Password is not matched", 401).send(res)

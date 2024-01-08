@@ -16,11 +16,12 @@ const newCategory={
     shoes:["Male Shoes", "Female Shoes"],
     clothes:["Male clohtes","Female clothes"]
 }
+import {ToastContainer , Zoom, toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const AddProduct = () => {
-    const[file, setFile]=useState(null)
-    const [progress, setProgress] = useState(0); // state for progress tracking
+    const[loading ,setLoding]=useState(false)
     const formik = useFormik({
         initialValues:{
             name:'',
@@ -37,16 +38,36 @@ const AddProduct = () => {
             file:null
         },
         validationSchema:addProduct,
-        onSubmit:async (value)=>{            
-            const data = {...value, file: value.file[0]}
-            const response = await  axios.post("http://localhost:3001/seller/addproduct", data , {headers: {'Content-Type': 'multipart/form-data'} , withCredentials:true})
-          console.log(response)
+        onSubmit:async (value)=>{      
+            setLoding(true)     
+            const id= toast.loading("please wait") 
+          try {
+              const data = {...value, file: value.file[0]}
+              const response = await  axios.post("http://localhost:3001/seller/addproduct", data , {headers: {'Content-Type': 'multipart/form-data'} , withCredentials:true})
+              toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })
+              formik.handleReset()
+          } catch (error) {
+            setLoding(true)
+            toast.update(id, {render:error?.response.data?.message, type:'error', isLoading:false })  
+            
+          } finally{
+            setTimeout(()=>{
+                setLoding(false)
+                toast.dismiss(id)
+              },2000)
+          }
         }
     })
 
 
   return (
     <>  
+         <ToastContainer
+             hideProgressBar={false}
+             position="top-center"
+             closeOnClick
+             transition={Zoom}                     
+        />
         <Animation>
     
           <div className='flex items-center justify-center'>
@@ -102,7 +123,7 @@ const AddProduct = () => {
                           </div>
                       </div>
                   </div>
-                  <button className='bg-blue-600  text-white py-2 rounded-xl cursor-pointer hover:bg-blue-800' onClick={formik.handleSubmit} type='submit'>Upload</button>
+                  <button className={`  text-white py-2 rounded-xl cursor-pointer hover:bg-blue-800 ${loading ? "bg-gray-600 hover:bg-gray-600 cursor-wait" :'bg-blue-600'}`} onClick={formik.handleSubmit} type='submit' disabled={loading ? true : false}>Upload</button>
               </Card>
           </div>
         </Animation>

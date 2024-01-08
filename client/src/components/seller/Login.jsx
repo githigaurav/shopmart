@@ -28,8 +28,6 @@ const Login = () => {
       }catch (error) {
         setLoding(true)
         toast.update(id, {render:error?.response.data?.message, type:'error', isLoading:false }) 
-        console.log(error)
-           // your logic how you handle error 
       }finally{
         setTimeout(()=>{
           setLoding(false)
