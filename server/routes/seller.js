@@ -84,6 +84,12 @@ seller.post("/addproduct", verify,handleFile, tryCatch(async(req,res)=>{
     
 }))
 
+seller.get('/products', verify , tryCatch(async(req, res)=>{
+    const {id}=req.info 
+    const seller = await Seller.findById(id,{createdAt:0,updatedAt:0,__v:0}).populate({path:'products', select:'-createdAt -updatedAt -__v'}).exec()
+    return ApiResponse.success(seller.products, "Product fetch successfully" , 200).send(res)
+}))
+
 
 
 

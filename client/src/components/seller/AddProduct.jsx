@@ -20,11 +20,11 @@ import {ToastContainer , Zoom, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const AddProduct = () => {
+const AddProduct = (props) => {
     const[loading ,setLoding]=useState(false)
     const formik = useFormik({
         initialValues:{
-            name:'',
+            name:'' ,
             brand:'',
             price:'',
             category:'',
@@ -59,7 +59,7 @@ const AddProduct = () => {
         }
     })
 
-
+    console.log(props)
   return (
     <>  
          <ToastContainer

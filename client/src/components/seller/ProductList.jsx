@@ -1,41 +1,146 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
-    List,
-    ListItem,
-    ListItemPrefix,
-    Avatar,
-    Card,
-    Typography,
-  } from "@material-tailwind/react";
+  Card,
+  CardHeader,
+  CardBody,
+  Typography,
+  Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+} from "@material-tailwind/react";
+import ListSkelton from './skelton/List';
+import axios from 'axios'
+import AddProduct from './AddProduct';
 const ProductList = () => {
+  const [update, setUpdate] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [data, setData] = useState([])
+  const [error, setError] = useState('')
+  useEffect(() => {
+    if (!data.length) {
+      ; (async () => {
+        try {
+          setLoading(true)
+          setError('')
+          const response = await axios.get('http://localhost:3001/seller/products', { withCredentials: true },)
+          setData(response?.data.data)
+        } catch (error) {
+          setLoading(true)
+          setError(error?.response?.data?.message)
+        } finally {
+          setLoading(false)
+        }
+      })()
+    }
+  }, [])
+
+
+  if (loading) {
+    return <ListSkelton />
+  }
+  if (error) {
+    return <h1>Something went wrong please retry</h1>
+  }
+
   return (
     <>
-        <div>
-        <Card>
-            <List>
-                <ListItem>
-                <ListItemPrefix>
-                    <Avatar variant="rounded" alt="candice" src={"/product.png"}  />
-                </ListItemPrefix>
-                <div className='flex gap-5 items-center'>
-                    <Typography variant="h6" color="blue-gray">
-                      Puma Shoes
+      <div className='flex flex-col gap-2 px-5 pb-20'>
+
+        {data?.map((item, index) => {
+          const { brand, category, discount, discription, file, name, paymentMethod, price, quantity, returnPolicy, seller, subCategory, warranty } = item
+          return (
+            <Card className="w-full flex flex-col justify-center items-center md:flex-row min-w-[350px] overflow-hidden ">
+              <CardHeader
+                shadow={false}
+                floated={false}
+                className="m-0  shrink-0 rounded-r-none"
+              >
+                <img
+                  src={file}
+                  alt="card-image"
+                  className="h-fit w-full object-cover max-w-[300px] min-w-[250px] bg-contain p-2 "
+                />
+              </CardHeader>
+              <CardBody className='w-full flex justify-between min-w-[250px]'>
+               <div className='flex-1 p-1'>
+               <Typography variant="h6" color="gray" className="mb-4 uppercase">
+                  {brand}
+                </Typography>
+                <div className='flex gap-2'>
+                    <Typography variant="h6" color="gray" className=" ">
+                      {category} /
                     </Typography>
-                    <Typography variant="small" color="gray" className="font-normal">
-                    Brand Name
+                    <Typography variant="h6" color="gray" className=" ">
+                      {subCategory}
                     </Typography>
-                    <Typography variant="small" color="gray" className="font-normal">
-                    Brand Name
+                  </div>
+                  <Typography variant="h4" color="blue-gray" className="mb-2 uppercase">
+                  {name}
+                  </Typography>
+               <div className='flex gap-2 mb-2'>
+                  <Typography color="gray" className=" font-normal">    
+                    {price} Rs.
                     </Typography>
-                    <Typography variant="small" color="gray" className="font-normal">
-                    Brand Name
-                    </Typography>
-                </div>
-                </ListItem>
-                
-            </List>
-         </Card>
-        </div>
+                  <Typography color="gray" className=" font-normal text-green-600 ">    
+                  {discount} %
+                  </Typography>
+               </div>              
+                  <Typography color="gray" className=" font-normal ">    
+                  {returnPolicy} Days replacement 
+                  </Typography>
+                  <Typography color="gray" className=" font-normal ">    
+                  {warranty} Month warranty 
+                  </Typography>
+                  <Typography color="gray" className=" font-normal ">    
+                  {discription}
+                  </Typography>
+              
+               </div>
+               <div className='flex flex-col gap-2'>
+                <Button onClick={() => setUpdate((prev)=> !prev)}>Edit</Button>
+                <Button>Delete</Button>
+               </div>
+              </CardBody>
+            </Card>
+          )
+        })}
+
+      </div>
+
+
+      {/* modal for product update */}
+      <div>
+        <Dialog
+          open={update}
+          size={"md"}
+          handler={update}
+        >
+          <DialogHeader>Update Product Details.</DialogHeader>
+          <DialogBody className='border m-2'>
+              {update ? <AddProduct data={data}/> : null}
+          </DialogBody>
+          <DialogFooter>
+            <Button
+              variant="text"
+              color="red"
+              onClick={() => setUpdate((prev) => { !prev })}
+              className="mr-1"
+            >
+              <span>Cancel</span>
+            </Button>
+            <Button
+              variant="gradient"
+              color="green"
+              onClick={() => setUpdate((prev) => { !prev })}
+            >
+              <span>Confirm Update</span>
+            </Button>
+          </DialogFooter>
+        </Dialog>
+      </div>
+
     </>
   )
 }

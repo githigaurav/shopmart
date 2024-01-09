@@ -200,8 +200,7 @@ const Dashboard = () => {
                                 </span>
                             </div>
                         </div>
-                    <div className=''>
-                        {/* render your component here  */}
+                    <div className=' overflow-scroll h-screen'>                        {/* render your component here  */}
                         {
                             tab === 'dashboard' ?   <h1>This is Dashboard</h1> :  
                             tab === 'addproduct' ? <AddProduct/> : 
