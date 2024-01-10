@@ -61,8 +61,8 @@ const sellerSchema = new mongoose.Schema({
     ],
     orders:[
         {
-            type:Schema.Types.ObjectId,
-            ref:'Orders'
+            type:Object,
+            default:{}
         }
     ],
     accountStatus:{

@@ -75,7 +75,7 @@ seller.post("/addproduct", verify,handleFile, tryCatch(async(req,res)=>{
         //* Pushing Product Object Id to seller Products Array
         const addProductToSeller = await Seller.findByIdAndUpdate(id, {$push:{products:response._id}})
         //* Updating newly created product seller using seller Object Id
-        const addProductOwner = await Product.findByIdAndUpdate(response?._id.toString(), {$set:{seller:addProductToSeller._id}},{runValidator:false})
+        const addProductOwner = await Product.findByIdAndUpdate(response?._id.toString(), {$set:{seller:addProductToSeller._id.toString()}},{runValidator:false})
         //* sending response to client
         ApiResponse.success(response, "Product Added Successfully" , 201).send(res)
 

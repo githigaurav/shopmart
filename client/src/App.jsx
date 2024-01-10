@@ -11,9 +11,11 @@ import Dashboard from './components/seller/Dashboard'
 import PrivateRoutes from './PrivateRoutes'
 import UserLogin from './components/user/Login'
 import UserSignUp from './components/user/Signup'
+// import NavbarMenu from './components/default/Navbar'
 const App = () => {
   return (
    <>
+   {/* <NavbarMenu/> */}
       <Router>
         <Routes>
           <Route path='/seller/signup' element={<Signup/>}/>

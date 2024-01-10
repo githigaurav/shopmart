@@ -1,10 +1,10 @@
 const user = require("express").Router()
-
+const {mongoose}=require("mongoose")
 const ApiResponse = require('./../utilis/apiResponse')
 const tryCatch = require('./../utilis/tryCatch')
 
 // importing DB
-const{Seller,Product , User} = require("../schema/index")
+const{Seller,Product ,User,Order} = require("../schema/index")
 
 // importing global controllers
 const{
@@ -39,7 +39,7 @@ user.post("/signup", tryCatch(async(req, res)=>{
 
 user.post("/login", tryCatch(async(req, res)=>{
     const {email, password}= req.body
-    const isExists = await isDataExists(email , Seller)
+    const isExists = await isDataExists(email , User)
     if(!!isExists.length){
         const matchPasswod = await verifyPassword(password, isExists[0]?.password ) 
         if(matchPasswod){
@@ -57,7 +57,30 @@ user.get("/dashboard", tryCatch(async(req, res)=>{
 }))
 
 user.post("/order",tryCatch(async(req, res)=>{
-        console.log(req.body)
+
+  const session = await mongoose.startSession();
+                    session.startTransaction();
+        const{userId , order}=req.body
+         //* Saving User Order
+        const ordered = await addToMongoDb(req.body, Order)
+        // * looping throught orders items
+        for(const products of ordered?.userOrderList){
+             // * extracting productId so so that we can find products
+            const productIds=products.product
+            //  * finding Product using product id && expanding seller schema
+            const product = await Product.findById(productIds).populate('seller')
+            // * Containing seller ids 
+            const sellerId= product?.seller._id
+            // * finding && updating seller orders so that seller can check is there any order
+           await Seller.findByIdAndUpdate(
+              sellerId,
+              {$push:{orders:products}},
+              {runValidator:false}
+            )
+            }
+  await session.commitTransaction();
+                session.endSession();
+    res.send("Order Successfully")
 }))
 
 
