@@ -78,9 +78,10 @@ user.post("/order",tryCatch(async(req, res)=>{
               {runValidator:false}
             )
             }
-  await session.commitTransaction();
-                session.endSession();
-    res.send("Order Successfully")
+     await session.commitTransaction();
+                  session.endSession();
+        res.send("Order Successfully")
+
 }))
 
 

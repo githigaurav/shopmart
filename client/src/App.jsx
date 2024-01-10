@@ -2,7 +2,7 @@ import React from 'react'
 import {
   BrowserRouter as Router,
   Routes,
-  Route
+  Route,
 } from 'react-router-dom'
 
 import Signup from './components/seller/Signup'
@@ -11,12 +11,19 @@ import Dashboard from './components/seller/Dashboard'
 import PrivateRoutes from './PrivateRoutes'
 import UserLogin from './components/user/Login'
 import UserSignUp from './components/user/Signup'
-// import NavbarMenu from './components/default/Navbar'
+import NavbarMenu from './components/default/Navbar'
+
+
+
 const App = () => {
+
+
+
   return (
-   <>
-   {/* <NavbarMenu/> */}
+   <>   
+ 
       <Router>
+      <NavbarMenu/>
         <Routes>
           <Route path='/seller/signup' element={<Signup/>}/>
           <Route path='/seller/login' element={<Login/>}/>

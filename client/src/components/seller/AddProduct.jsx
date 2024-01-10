@@ -71,7 +71,7 @@ const AddProduct = (props) => {
         <Animation>
     
           <div className='flex items-center justify-center'>
-              <Card className="w-full max-w-[40rem] h-dvh px-5 py-10 sm:px-10 sm:py-10 overflow-x-hidden max-h-[600px] gap-5 rounded-md ">
+              <Card className="w-full max-w-[40rem]  px-5 py-10 sm:px-10 sm:py-10   gap-5 rounded-md ">
                   <div className='flex flex-col sm:flex-row gap-10 items-center justify-center'>
                       <div className="flex flex-col gap-5 w-full">
                       {/* bug fixed , in order to do touched function work proerply you have to use it erro props as well so that components know well there is an error */}

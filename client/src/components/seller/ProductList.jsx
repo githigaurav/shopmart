@@ -5,16 +5,13 @@ import {
   CardBody,
   Typography,
   Button,
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
+
 } from "@material-tailwind/react";
 import ListSkelton from './skelton/List';
 import axios from 'axios'
-import AddProduct from './AddProduct';
+import Animation from './../animation/Animation'
+
 const ProductList = () => {
-  const [update, setUpdate] = useState(false);
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [error, setError] = useState('')
@@ -46,7 +43,8 @@ const ProductList = () => {
 
   return (
     <>
-      <div className='flex flex-col gap-2 px-5 pb-20'>
+     <Animation>
+      <div className='flex flex-col gap-2 '>
 
         {data?.map((item, index) => {
           const { brand, category, discount, discription, file, name, paymentMethod, price, quantity, returnPolicy, seller, subCategory, warranty } = item
@@ -108,39 +106,7 @@ const ProductList = () => {
         })}
 
       </div>
-
-
-      {/* modal for product update */}
-      <div>
-        <Dialog
-          open={update}
-          size={"md"}
-          handler={update}
-        >
-          <DialogHeader>Update Product Details.</DialogHeader>
-          <DialogBody className='border m-2'>
-              {update ? <AddProduct data={data}/> : null}
-          </DialogBody>
-          <DialogFooter>
-            <Button
-              variant="text"
-              color="red"
-              onClick={() => setUpdate((prev) => { !prev })}
-              className="mr-1"
-            >
-              <span>Cancel</span>
-            </Button>
-            <Button
-              variant="gradient"
-              color="green"
-              onClick={() => setUpdate((prev) => { !prev })}
-            >
-              <span>Confirm Update</span>
-            </Button>
-          </DialogFooter>
-        </Dialog>
-      </div>
-
+      </Animation>
     </>
   )
 }

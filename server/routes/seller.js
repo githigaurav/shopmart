@@ -78,10 +78,7 @@ seller.post("/addproduct", verify,handleFile, tryCatch(async(req,res)=>{
         const addProductOwner = await Product.findByIdAndUpdate(response?._id.toString(), {$set:{seller:addProductToSeller._id.toString()}},{runValidator:false})
         //* sending response to client
         ApiResponse.success(response, "Product Added Successfully" , 201).send(res)
-
-    }     
-    
-    
+    }   
 }))
 
 seller.get('/products', verify , tryCatch(async(req, res)=>{

@@ -78,7 +78,7 @@ button:focus-visible {
   box-sizing: border-box;
 }
 body{
-overflow: hidden;
+/* overflow: hidden; */
 
 
 ::-webkit-scrollbar {
