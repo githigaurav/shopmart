@@ -12,6 +12,7 @@ import PrivateRoutes from './PrivateRoutes'
 import UserLogin from './components/user/Login'
 import UserSignUp from './components/user/Signup'
 import NavbarMenu from './components/default/Navbar'
+import Home from './components/default/Home'
 
 
 
@@ -25,6 +26,7 @@ const App = () => {
       <Router>
       <NavbarMenu/>
         <Routes>
+         <Route path='/' element={<Home/>}/>
           <Route path='/seller/signup' element={<Signup/>}/>
           <Route path='/seller/login' element={<Login/>}/>
           <Route element={<PrivateRoutes/>}>

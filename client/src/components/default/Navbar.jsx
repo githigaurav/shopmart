@@ -46,7 +46,7 @@ const NavbarMenu = () => {
           </svg>
    
           <a href="#" className="flex items-center">
-            Pages
+            Cart
           </a>
         </Typography>
         <Typography
@@ -126,12 +126,13 @@ const NavbarMenu = () => {
     }
   return (
     <>
-    <Navbar className="mx-auto w-full px-4 py-2 lg:px-8 lg:py-4 " fullWidth>
+   <div className='flex items-start sticky top-0 w-full z-50'>
+   <Navbar className="mx-auto w-full px-4 py-2 lg:px-8 lg:py-4 " fullWidth>
       <div className="container mx-auto flex flex-wrap items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
           href="#"
-          className="mr-4 cursor-pointer py-1.5 font-medium"
+          className="mr-4 cursor-pointer py-1.5 font-bold sm:text-md md:text-xl lg:text-2xl uppercase text-balance"
         >
           ShopMart
         </Typography>
@@ -259,6 +260,7 @@ const NavbarMenu = () => {
       </MobileNav>
     </Navbar>
 
+   </div>
     </>
   )
 }
