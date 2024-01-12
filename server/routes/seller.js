@@ -5,7 +5,7 @@ const ApiResponse = require('./../utilis/apiResponse')
 const tryCatch = require('./../utilis/tryCatch')
 
 // importing DB
-const{Seller,Product} = require("../schema/index")
+const{Seller,Product, Order} = require("../schema/index")
 
 // importing global controllers
 const{
@@ -88,6 +88,16 @@ seller.get('/products', verify , tryCatch(async(req, res)=>{
 }))
 
 
+seller.get('/orders', verify , tryCatch(async(req, res)=>{
+    const {id}=req.info 
+    console.log(id)
+    const findOrders = await Seller.findById(id).populate({
+        path: 'orders.product',
+        model:'Product'
+      }).exec()
+    console.log(findOrders)
+    return ApiResponse.success(findOrders.orders, "Order fetched successfully",200).send(res)
+}))
 
 
 

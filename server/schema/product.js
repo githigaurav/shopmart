@@ -15,10 +15,12 @@ const productSchema= new mongoose.Schema({
     },
     category:{
         type:String,
+        
         required:[true, "Category is required"],
     },
     subCategory:{
         type:String,
+      
         required:[true, "Sub Category is required"],
     },
     returnPolicy:{

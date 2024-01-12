@@ -30,12 +30,13 @@ import {getDashboard} from './../useNetwork/useNetwork'
 import Profile from './Profile';
 import {ToastContainer , Zoom, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import Orders from './Orders';
 
 const Dashboard = () => {
     const [data=[], loading=false ,error='']= getDashboard()
     const navigate=useNavigate()
     const [open, setOpen] = useState(0);
-    const [tab , setTab]=useState('addproduct')
+    const [tab , setTab]=useState('orders')
     const handleOpen = (value) => {
         setOpen(open === value ? 0 : value);
     };
@@ -345,7 +346,8 @@ const Dashboard = () => {
                             tab === 'dashboard' ?   <h1>This is Dashboard</h1> :  
                             tab === 'addproduct' ? <AddProduct/> : 
                             tab === 'productList' ? <ProductList/> : 
-                            tab === 'profile' ?  <Profile data={data ? data : ''}/> : null
+                            tab === 'profile' ?  <Profile data={data ? data : ''}/> : 
+                            tab === 'orders' ? <Orders/> : null
                         }
                     </div>
                     </div>
