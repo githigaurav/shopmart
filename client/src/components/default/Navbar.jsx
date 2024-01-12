@@ -7,7 +7,7 @@ import {
     IconButton,
     Input,
   } from "@material-tailwind/react";
-  import {useLocation} from 'react-router-dom'
+  import {Link, useLocation} from 'react-router-dom'
 const path =["/seller","/user"]
 const NavbarMenu = () => {
   const location = useLocation()
@@ -45,8 +45,8 @@ const NavbarMenu = () => {
             />
           </svg>
    
-          <a href="#" className="flex items-center">
-            Cart
+          <a href="" className="flex items-center">
+            <Link to="/cart">Cart</Link>
           </a>
         </Typography>
         <Typography
@@ -134,7 +134,7 @@ const NavbarMenu = () => {
           href="#"
           className="mr-4 cursor-pointer py-1.5 font-bold sm:text-md md:text-xl lg:text-2xl uppercase text-balance"
         >
-          ShopMart
+          <Link to="/">ShopMart</Link>
         </Typography>
         <div className="hidden lg:block">{navList}</div>
         <div className="hidden items-center gap-x-2 lg:flex">
