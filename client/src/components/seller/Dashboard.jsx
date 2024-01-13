@@ -26,14 +26,14 @@ import AddProduct from './AddProduct';
 import ProductList from './ProductList';
 import Cookie from 'js-cookie'
 import { useNavigate } from 'react-router-dom';
-import {getDashboard} from './../useNetwork/useNetwork'
+import {getData} from './../useNetwork/useNetwork'
 import Profile from './Profile';
 import {ToastContainer , Zoom, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import Orders from './Orders';
 
 const Dashboard = () => {
-    const [data=[], loading=false ,error='']= getDashboard()
+    const [data=[], loading=false ,error='']= getData("seller/dashboard")
     const navigate=useNavigate()
     const [open, setOpen] = useState(0);
     const [tab , setTab]=useState('orders')
@@ -57,7 +57,7 @@ const Dashboard = () => {
         navigate("/seller/login")
        },3000)
     } 
-
+console.log(data)
     
     return (
         // <>

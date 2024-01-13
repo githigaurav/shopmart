@@ -90,12 +90,10 @@ seller.get('/products', verify , tryCatch(async(req, res)=>{
 
 seller.get('/orders', verify , tryCatch(async(req, res)=>{
     const {id}=req.info 
-    console.log(id)
     const findOrders = await Seller.findById(id).populate({
-        path: 'orders.product',
+        path: 'product',
         model:'Product'
       }).exec()
-    console.log(findOrders)
     return ApiResponse.success(findOrders.orders, "Order fetched successfully",200).send(res)
 }))
 

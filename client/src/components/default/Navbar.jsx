@@ -6,10 +6,13 @@ import {
     Button,
     IconButton,
     Input,
+    Collapse,
   } from "@material-tailwind/react";
   import {Link, useLocation} from 'react-router-dom'
 const path =["/seller","/user"]
+import { useSelector, useDispatch } from 'react-redux'
 const NavbarMenu = () => {
+  const cart = useSelector((state) => state.cart)
   const location = useLocation()
   const shouldRenderNavbar = path.some(path => {
     return location.pathname.startsWith(path);  
@@ -45,9 +48,9 @@ const NavbarMenu = () => {
             />
           </svg>
    
-          <a href="" className="flex items-center">
-            <Link to="/cart">Cart</Link>
-          </a>
+     
+            <Link to="/cart"> Cart <span className='bg-green-600 rounded-full p-1 text-white'>{cart.length} </span> </Link>
+        
         </Typography>
         <Typography
           as="li"
@@ -115,9 +118,9 @@ const NavbarMenu = () => {
               fill="#90A4AE"
             />
           </svg>
-          <a href="#" className="flex items-center">
-            Docs
-          </a>
+        
+            <Link>Docs</Link>
+        
         </Typography>
       </ul>
     );
@@ -214,7 +217,7 @@ const NavbarMenu = () => {
           )}
         </IconButton>
       </div>
-      <MobileNav open={openNav}>
+      <Collapse open={openNav}>
         <div className="container mx-auto">
           {navList}
           <div className="flex flex-col gap-x-2 sm:flex-row sm:items-center">
@@ -257,7 +260,7 @@ const NavbarMenu = () => {
             </Button>
           </div>
         </div>
-      </MobileNav>
+      </Collapse>
     </Navbar>
 
    </div>

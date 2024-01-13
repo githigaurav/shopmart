@@ -40,7 +40,6 @@ const Orders = () => {
   if (error) {
     return <h1>Something went wrong please retry</h1>
   }
-  console.log(data)
   return (
     <>
      <Animation>
@@ -56,7 +55,7 @@ const Orders = () => {
                 className="m-0  shrink-0 rounded-r-none"
               >
                 <img
-                  src={product.file}
+                  src={product?.file}
                   alt="card-image"
                   className="h-fit w-full object-cover max-w-[300px] min-w-[250px] bg-contain p-2 "
                 />
@@ -64,35 +63,35 @@ const Orders = () => {
               <CardBody className='w-full flex justify-between min-w-[250px]'>
                <div className='flex-1 p-1'>
                <Typography variant="h6" color="gray" className="mb-4 uppercase">
-                  {product.brand}
+                  {product?.brand}
                 </Typography>
                 <div className='flex gap-2'>
                     <Typography variant="h6" color="gray" className=" ">
-                      {product.category} /
+                      {product?.category} /
                     </Typography>
                     <Typography variant="h6" color="gray" className=" ">
-                      {product.subCategory}
+                      {product?.subCategory}
                     </Typography>
                   </div>
                   <Typography variant="h4" color="blue-gray" className="mb-2 uppercase">
-                  {product.name}
+                  {product?.name}
                   </Typography>
                <div className='flex gap-2 mb-2'>
                   <Typography color="gray" className=" font-normal">    
-                    {product.price} Rs.
+                    {product?.price} Rs.
                     </Typography>
                   <Typography color="gray" className=" font-normal text-green-600 ">    
-                  {product.discount} %
+                  {product?.discount} %
                   </Typography>
                </div>              
                   <Typography color="gray" className=" font-normal ">    
-                  {deliveryAddress.city}
+                  {deliveryAddress?.city}
                   </Typography>
                   <Typography color="gray" className=" font-normal ">    
-                  {deliveryAddress.state} Month warranty 
+                  {deliveryAddress?.state} Month warranty 
                   </Typography>
                   <Typography color="gray" className=" font-normal ">    
-                  {deliveryAddress.location}
+                  {deliveryAddress?.location}
                   </Typography>
               
                </div>

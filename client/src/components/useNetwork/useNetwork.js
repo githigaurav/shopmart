@@ -11,7 +11,11 @@ export const useAxios = async (
 
     }
 
-export const getDashboard = ()=>{
+
+
+
+
+export const getData = (endPoint)=>{
     const [data, setData]=useState([])
     const [loading, setLoading]=useState(false)
     const [error, setError]=useState('')
@@ -22,7 +26,7 @@ export const getDashboard = ()=>{
             try {
                 setError('')
                 setLoading(true)
-                const respnse  = await axios.get(`${networkPath}/seller/dashboard` ,{withCredentials:true})
+                const respnse  = await axios.get(`${networkPath}/${endPoint}` ,{withCredentials:true})
                 setData(respnse?.data.data)
             } catch (error) {
                 setLoading(true)

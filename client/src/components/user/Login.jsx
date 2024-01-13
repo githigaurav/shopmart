@@ -21,7 +21,7 @@ const Login = () => {
       setLoding(true)
       const id= toast.loading("Signing in please wait")
       try {     
-        const response = await useAxios("post", "seller/login", values , )
+        const response = await useAxios("post", "user/login", values , )
         toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })
         // user logic will be here
       }catch (error) {

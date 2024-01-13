@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   BrowserRouter as Router,
   Routes,
@@ -15,14 +15,10 @@ import NavbarMenu from './components/default/Navbar'
 import Home from './components/default/Home'
 import Cart from './components/default/Cart'
 
-
 const App = () => {
-
-
 
   return (
    <>   
- 
       <Router>
       <NavbarMenu/>
         <Routes>
