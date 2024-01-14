@@ -8,6 +8,7 @@ import { loginVal } from './../validation/validation'
 import {ToastContainer , Zoom, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
+import Cookie from 'js-cookie'
 const Login = () => {
   const navigate=useNavigate()
   const[loading ,setLoding]=useState(false)
@@ -23,6 +24,7 @@ const Login = () => {
       try {     
         const response = await useAxios("post", "seller/login", values , )
         toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })
+        Cookie.set("token",response?.data?.data[0].token , {sameSite: 'None', secure: true})
         navigate("/seller/dashboard")
     
       }catch (error) {

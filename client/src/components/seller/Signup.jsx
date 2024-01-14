@@ -7,6 +7,7 @@ import {useAxios} from './../useNetwork/useNetwork'
 import {ToastContainer , Zoom, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
+import Cookie from 'js-cookie'
 const Signup = () => {
   const navigate=useNavigate()
   const[loading ,setLoding]=useState(false)
@@ -23,6 +24,7 @@ const Signup = () => {
       try {     
         const response = await useAxios("post", "seller/signup", values , )
         toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })
+        Cookie.set("token",response?.data?.data[0].token , {sameSite: 'None', secure: true})
         navigate("/seller/dashboard")
       } catch (error) { 
         setLoding(true)

@@ -12,7 +12,7 @@ import {
 const path =["/seller","/user"]
 import { useSelector, useDispatch } from 'react-redux'
 const NavbarMenu = () => {
-  const cart = useSelector((state) => state.cart)
+  const cart = useSelector((state) => state.cart.cart)
   const location = useLocation()
   const shouldRenderNavbar = path.some(path => {
     return location.pathname.startsWith(path);  
@@ -49,7 +49,7 @@ const NavbarMenu = () => {
           </svg>
    
      
-            <Link to="/cart"> Cart <span className='bg-green-600 rounded-full p-1 text-white'>{cart.length} </span> </Link>
+            <Link to="/cart"> Cart <span className='bg-green-600 rounded-full p-1 text-white'>{cart?.length} </span> </Link>
         
         </Typography>
         <Typography

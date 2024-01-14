@@ -6,6 +6,7 @@ import { signupVal } from './../validation/validation'
 import {useAxios} from './../useNetwork/useNetwork'
 import {ToastContainer , Zoom, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import Cookie from 'js-cookie'
 const Signup = () => {
   const[loading ,setLoding]=useState(false)
   const formik = useFormik({
@@ -20,7 +21,7 @@ const Signup = () => {
       try {     
         const response = await useAxios("post", "seller/signup", values , )
         toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })
-        // write your logic here what you want to do after this 
+        Cookie.set("token",response?.data?.data[0].token , {sameSite: 'None', secure: true})
     
       } catch (error) { 
         setLoding(true)

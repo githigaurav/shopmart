@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {useAxios} from './../useNetwork/useNetwork'
-
+import Cookie from 'js-cookie'
 import { Button, Input, Typography } from "@material-tailwind/react";
 import { NavLink } from "react-router-dom";
 import { useFormik } from 'formik'
@@ -23,7 +23,8 @@ const Login = () => {
       try {     
         const response = await useAxios("post", "user/login", values , )
         toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })
-        // user logic will be here
+        Cookie.set("token",response?.data?.data[0].token , {sameSite: 'None', secure: true})
+       
       }catch (error) {
         setLoding(true)
         toast.update(id, {render:error?.response.data?.message, type:'error', isLoading:false }) 

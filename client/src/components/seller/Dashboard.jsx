@@ -31,12 +31,14 @@ import Profile from './Profile';
 import {ToastContainer , Zoom, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import Orders from './Orders';
+import OrdersChart from './OrdersChart';
+import Graph from './Graph';
 
 const Dashboard = () => {
     const [data=[], loading=false ,error='']= getData("seller/dashboard")
     const navigate=useNavigate()
     const [open, setOpen] = useState(0);
-    const [tab , setTab]=useState('orders')
+    const [tab , setTab]=useState('dashboard')
     const handleOpen = (value) => {
         setOpen(open === value ? 0 : value);
     };
@@ -57,7 +59,7 @@ const Dashboard = () => {
         navigate("/seller/login")
        },3000)
     } 
-console.log(data)
+
     
     return (
         // <>
@@ -293,13 +295,13 @@ console.log(data)
                                     </List>
                                 </AccordionBody>
                             </Accordion>
-                            <ListItem>
+                            <ListItem onClick={()=>{setTab("orders")}}>
                                 <ListItemPrefix>
                                     <InboxIcon className="h-5 w-5" />
                                 </ListItemPrefix>
                                 Orders
                                 <ListItemSuffix>
-                                    <Chip value="0" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
+                                    <Chip value={data ? data[0]?.orders.length : 0} size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
                                 </ListItemSuffix>
                             </ListItem>
                             <ListItem>
@@ -343,7 +345,7 @@ console.log(data)
                         </div>
                     <div className=''>                        
                         {
-                            tab === 'dashboard' ?   <h1>This is Dashboard</h1> :  
+                            tab === 'dashboard' ?   <Graph/> :  
                             tab === 'addproduct' ? <AddProduct/> : 
                             tab === 'productList' ? <ProductList/> : 
                             tab === 'profile' ?  <Profile data={data ? data : ''}/> : 

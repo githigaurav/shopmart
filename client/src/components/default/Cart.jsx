@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Card,
   CardHeader,
@@ -14,25 +14,24 @@ import {addToCart, removeFromCart} from './../../dataCenter/slice/cartSlice'
 
 const Cart = () => {
   const dispatch=useDispatch()
-  const data = useSelector((state) => state.cart)
+  const data = useSelector((state) => state.cart.cart)
   const auth=Cookie.get('token')
-  const TABLE_HEAD = ["Items", "Quantity", "Price", ""];
- 
-const TABLE_ROWS = [
-  {
-    name: "John Michael",
-    job: "Manager",
-    date: "23/04/18",
-  },
-  
-  {
-    name: "Total",
-    job: "25",
-    date: "28,900",
-  },
-];
-console.log(data)
+  const [totalAmt, setTotalAmt]=useState(0)
 
+  const addTotalAmount=(data)=>{
+       let totalAmt=0
+        data.map((product)=>{
+          totalAmt += product.price
+          setTotalAmt(totalAmt)
+        })
+  }
+
+
+
+console.log(data)
+useEffect(()=>{
+  addTotalAmount(data)
+},[data])
 
   return (
     <>
@@ -68,7 +67,7 @@ console.log(data)
                   ripple={false}
                   fullWidth={true}
                   className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
-                  onClick={()=>{dispatch(removeFromCart(_id))}}
+                  onClick={()=>{dispatch(removeFromCart(index))}}
                 >
                   Remove
                 </Button>
@@ -84,9 +83,9 @@ console.log(data)
               <table className="w-full min-w-max table-auto text-left">
                 <thead>
                   <tr>
-                    {TABLE_HEAD.map((head) => (
+           
                       <th
-                        key={head}
+                    
                         className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
                       >
                         <Typography
@@ -94,16 +93,27 @@ console.log(data)
                           color="blue-gray"
                           className="font-normal leading-none opacity-70"
                         >
-                          {head}
+                          Items
                         </Typography>
                       </th>
-                    ))}
+                      <th
+                    
+                    className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                  >
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal leading-none opacity-70"
+                    >
+                      Price
+                    </Typography>
+                  </th>
+                   
                   </tr>
                 </thead>
                 <tbody>
-                  {TABLE_ROWS.map(({ name, job, date }, index) => {
-                    const isLast = index === TABLE_ROWS.length - 1;
-                    const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
+                  {data?.map(({ name, price }, index) => {
+                    const classes = "p-4 border-b border-blue-gray-50";
 
                     return (
                       <tr key={name}>
@@ -122,26 +132,37 @@ console.log(data)
                             color="blue-gray"
                             className="font-normal"
                           >
-                            {job}
+                            {price}
                           </Typography>
                         </td>
-                        <td className={classes}>
+                      </tr>
+                    );
+                  })}
+                   <tr>
+                        <td className='p-4 border-b border-blue-gray-50'>
                           <Typography
                             variant="small"
                             color="blue-gray"
                             className="font-normal"
                           >
-                            {date}
+                            Total
                           </Typography>
                         </td>
-
+                        <td className='p-4 border-b border-blue-gray-50'>
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
+                            {totalAmt}
+                          </Typography>
+                        </td>
                       </tr>
-                    );
-                  })}
                 </tbody>
               </table>
               <CardFooter>
                {auth ?  <Button fullWidth>Checkout</Button> :  <Button fullWidth><Link to="/user/login">SignIn</Link></Button>}
+               <Link to="/checkout">Checkout</Link>
               </CardFooter>
             </Card>
           </div>

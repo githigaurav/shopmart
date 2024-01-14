@@ -14,6 +14,7 @@ import UserSignUp from './components/user/Signup'
 import NavbarMenu from './components/default/Navbar'
 import Home from './components/default/Home'
 import Cart from './components/default/Cart'
+import Address from './components/default/Address'
 
 const App = () => {
 
@@ -31,6 +32,7 @@ const App = () => {
           <Route path='/user/login' element={<UserLogin/>}/>
           <Route path='/user/signup' element={<UserSignUp/>}/>
           <Route path='/cart' element={<Cart/>}/>
+          <Route path='/checkout' element={<Address/>}/>
         </Routes>
       </Router>
    </>

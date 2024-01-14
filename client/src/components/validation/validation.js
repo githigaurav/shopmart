@@ -56,6 +56,16 @@ const addProduct= new yup.ObjectSchema({
 
 })
 
+const address = new yup.ObjectSchema({
+    houseNo: yup.string().required("Houe No is required"),
+    location: yup.string().required("Location is required").min(3, "Minimum 3 character is required").max(72,"Maximum password length is reached"),
+    city: yup.string().required("City is required").min(3, "Minimum 3 character is required").max(72,"Maximum password length is reached"),
+    state: yup.string().required("State is required").min(3, "Minimum 3 character is required").max(72,"Maximum password length is reached"),
+    pinCode: yup.string().required("Location is required").min(6, "Valid pin code is required").max(6,"Invalid Pin Code").matches(/^[0-9]+$/, "Pin code should be numbers only"),
+
+})
 
 
-export {loginVal, signupVal, addProduct}
+
+
+export {loginVal, signupVal, addProduct , address}
