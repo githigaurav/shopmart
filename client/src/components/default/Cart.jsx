@@ -36,12 +36,14 @@ useEffect(()=>{
   return (
     <>
       <div className='flex gap-3 w-full  justify-center mt-2 flex-col md:flex-row'>
-        <div className='flex flex-col gap-3'>
+       {data.length <=0 ? <h1 className='text-2xl text-blue-800'>There is no item in the cart</h1> :
+       <>
+         <div className='flex flex-col gap-3'>
          {data?.map((product, index)=>{
           const {_id ,name, price, file}=product
          
             return(
-              <Card className="w-full flex flex-row max-w-[800px] min-w-[600px]  justify-between" key={index}>
+              <Card className="w-full flex flex-row max-w-[800px] min-w-[100px] sm:min-w-[300px] md:min-w-[500px] lg:min-w-[700px]  justify-between" key={index}>
               <CardHeader shadow={false} floated={false} className="h-[100px] w-[150px]  mt-0 mx-0 ">
                 <img
                   src={file}
@@ -57,9 +59,6 @@ useEffect(()=>{
                   <Typography color="blue-gray" className="font-medium">
                     {price}
                   </Typography>
-                  {/* <Typography color="blue-gray" className="font-medium">
-                    Quantity - $95.00 +
-                  </Typography> */}
                 </div>
               </CardBody>
               <CardFooter className="p-0 px-3 flex justify-center items-center">
@@ -161,12 +160,13 @@ useEffect(()=>{
                 </tbody>
               </table>
               <CardFooter>
-               {auth ?  <Button fullWidth>Checkout</Button> :  <Button fullWidth><Link to="/user/login">SignIn</Link></Button>}
-               <Link to="/checkout">Checkout</Link>
+               {auth ? <Link to="/checkout"> <Button fullWidth>Checkout</Button></Link> : <Link to="/user/login"> <Button fullWidth>SignIn</Button></Link>}               
               </CardFooter>
             </Card>
           </div>
         </div>
+       </>
+       }
       </div>
     </>
   )

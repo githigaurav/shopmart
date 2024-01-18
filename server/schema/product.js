@@ -15,14 +15,27 @@ const productSchema= new mongoose.Schema({
     },
     category:{
         type:String,
-        
         required:[true, "Category is required"],
+        enum:["clothes"],
+        default:'clothes'
+        
+        
     },
     subCategory:{
         type:String,
-      
         required:[true, "Sub Category is required"],
+        enum:["male"],
+        default:"male"
+      
+        
     },
+    size:{
+        type:String,
+        required:[true, "Product Size is required"],
+        enum:["m","l","xl","xxl"],
+        default:"m" 
+    },
+
     returnPolicy:{
         type:String,
         required:[true, "Return policy is required"],

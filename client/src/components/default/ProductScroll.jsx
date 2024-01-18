@@ -9,19 +9,14 @@ import 'swiper/css/pagination';
 
 import './style.css';
 
-// import required modules
-import { Pagination, FreeMode } from 'swiper/modules';
-import { getData } from '../useNetwork/useNetwork';
-const ProductScroll = () => {
-  const[data=[] , loading=false, error='']=getData('home/products')
 
-  if(error){
-    <h1>Something went wrong</h1>
-  }
-  if(loading){
-    <h1>Data is being loaded </h1>
-  }
-  console.log(data)
+import { Pagination, FreeMode } from 'swiper/modules';
+// import product from './Data'
+
+const ProductScroll = (props) => {
+
+  const data = props.data || []
+
   return (
     <>
       <Swiper
@@ -37,7 +32,21 @@ const ProductScroll = () => {
         {data?.map((product, index)=>{
         
           return(
-                  <SwiperSlide key={index}>
+            
+                  <SwiperSlide key={index} className='flex gap-2'>
+                     <ProductCard data={product} />
+                     <ProductCard data={product} />
+                     <ProductCard data={product} />
+                     <ProductCard data={product} />
+                     <ProductCard data={product} />
+                     <ProductCard data={product} />
+                     <ProductCard data={product} />
+                     <ProductCard data={product} />
+                     <ProductCard data={product} />
+                     <ProductCard data={product} />
+                     <ProductCard data={product} />
+                     <ProductCard data={product} />
+                     <ProductCard data={product} />
                      <ProductCard data={product} />
                  </SwiperSlide>
           )

@@ -3,8 +3,13 @@ const {mongoose}=require("mongoose")
 const ApiResponse = require('./../utilis/apiResponse')
 const tryCatch = require('./../utilis/tryCatch')
 
+// * importing Validation files
+const {
+  authValidation,
+  orderValidation
+} = require("./../utilis/validation")
 // importing DB
-const{Seller,Product ,User,Order} = require("../schema/index")
+const{Seller,Product ,User, Order} = require("../schema/index")
 
 // importing global controllers
 const{
@@ -18,51 +23,111 @@ const{
 }= require("./../controllers/globalControllers")
 
 // importing middleware
-const {verify, handleFile}=require("../middleware/globalMiddleware")
+const {verifyUser, handleFile}=require("../middleware/globalMiddleware")
 
 user.post("/signup", tryCatch(async(req, res)=>{
-    const {email, password}= req.body
+    //* Get client Email && Password from body
+    const {email:clientEmail, password}= req.body
+
+    // * convert lowercase 
+    const email = clientEmail.toLowerCase()
+   
+    //* Validate Email && Password
+    await  authValidation.validateAsync({email, password})
+
+    //* Check is client Email Id is already Exists
     const isExists = await isDataExists(email , User)
 
+    // ! If email id aleady exists then send a response to client
     if(!!isExists.length){
         return ApiResponse.failure([],"Email is already exists", 409).send(res)
      }
 
-     const encryptPass = await encryptPassword(password)    
+    //* Encrypt client password
+     const encryptPass = await encryptPassword(password)  
+    //* Replace client password with Encrypted password   
      const payload = {...req.body , password:encryptPass}
+    // * Add client data to mongodb 
      const addData = await addToMongoDb(payload , User)
-     const genToken = await jwtToken({id:addData._id})
-     res.cookie("token", genToken)
-     return ApiResponse.success(addData, "User Register successfully", 201).send(res)
+    // * Generate a token for client Authentication
+     const generatedToken = await jwtToken({id:addData._id} , process.env.USER_JWT_KEY)
+    
+    // *Cookie options config
+    const options ={
+      // domain: 'example.com',
+      path: '/',
+      // maxAge: 900000, 
+      // httpOnly: true,
+      secure: true,
+      // sameSite: 'lax' 
+    }
+    // * Set Cookie in client browser with token and role
+    res.cookie("token", generatedToken)
+    res.cookie("role","user",{secure:true})
+
+    // * Send Response to client after successfull registration
+    return ApiResponse.success([{token:generatedToken}], "User Register successfully", 201).send(res)
     
 }))
 
 user.post("/login", tryCatch(async(req, res)=>{
-    const {email, password}= req.body
-    const isExists = await isDataExists(email , User)
+    //* Get client Email && Password from body
+    const {email:clientEmail, password}= req.body
+
+    // * convert lowercase 
+    const email = clientEmail.toLowerCase()
+
+    //* Check is client Email Id is already Exists
+    const isExists = await isDataExists(email , Seller)
+
+    // * if user exists then 
     if(!!isExists.length){
-        const matchPasswod = await verifyPassword(password, isExists[0]?.password ) 
-        if(matchPasswod){
-            const genToken = await jwtToken({id:isExists[0]?._id})
-            res.cookie('token', genToken)
-            return ApiResponse.success([], "Login successfully" , 200).send(res)
-        }else{
-            return ApiResponse.failure([],"Password is not matched", 401).send(res)
+
+         // * Verifying Password
+        const isPasswordOK = await verifyPassword(password, isExists[0]?.password ) 
+        // * if password match and verify
+        if(isPasswordOK){
+          // * Generate a token for client Authentication
+          const generatedToken = await jwtToken({id:isExists[0]?._id} , process.env.USER_JWT_KEY)
+           // *Cookie options config
+           const options ={
+            // domain: 'example.com',
+            path: '/',
+            // maxAge: 900000, 
+            // httpOnly: true,
+            secure: true,
+            // sameSite: 'lax' 
+          }
+          // * Set Cookie in client browser with token and role
+          res.cookie('token', generatedToken , options)
+          res.cookie("role","user",{secure:true})
+           // * Send Response to client after successfully login
+           return ApiResponse.success([{token:generatedToken}], "Login successfully" , 200).send(res)
+      
+      // * if password doesn't match   
+      }else{
+        // * Send response to client 
+        return ApiResponse.failure([],"Password is not matched", 401).send(res)
         }        
     }
+    // * if Email doesn't exists in database
     return ApiResponse.failure([],"Email doesn't exists", 401).send(res)
 }))
+
 user.get("/dashboard", tryCatch(async(req, res)=>{
-    console.log(req.body)
+    
 }))
 
-user.post("/order",tryCatch(async(req, res)=>{
-
-  const session = await mongoose.startSession();
+user.post("/order", verifyUser ,tryCatch(async(req, res)=>{
+    // * getting client unique id from middleware 
+    const {id}=req.info
+    const orderData={...req.body , userId:id}
+     await orderValidation.validateAsync(orderData)
+     
+    const session = await mongoose.startSession();
                     session.startTransaction();
-        const{userId , order}=req.body
          //* Saving User Order
-        const ordered = await addToMongoDb(req.body, Order)
+        const ordered = await addToMongoDb(orderData, Order)
         // * looping throught orders items
         for(const products of ordered?.userOrderList){
              // * extracting productId so so that we can find products
@@ -80,8 +145,55 @@ user.post("/order",tryCatch(async(req, res)=>{
             }
      await session.commitTransaction();
                   session.endSession();
-        res.send("Order Successfully")
+    ApiResponse.success([] , "Order has been placed successfully",200).send(res)
 
+}))
+
+user.get("/history", verifyUser ,tryCatch(async(req, res)=>{
+    const {id}= req.info
+    const userOrder = await Order.aggregate([
+
+        {
+          $match: {
+            userId:new mongoose.Types.ObjectId(id)
+          }
+        },
+        {
+          $project: {
+            _id:0,
+            userId:0,
+            createdAt:0,
+            updatedAt:0,
+          }
+        },
+        {
+          $unwind:"$userOrderList"
+        },
+        {
+          $project:{__v:0}
+        },
+  {
+		$lookup: {
+		  from: "products",
+		  localField: "userOrderList.product",
+		  foreignField: "_id",
+		   as: "userOrderList.product"
+		}	
+  },
+  {
+		$unwind:"$userOrderList.product"
+  },
+  {
+          $group:{  
+            _id:1,    
+            orders:{$push: "$userOrderList"}
+          }
+        }
+
+        
+    ])  
+      
+    return ApiResponse.success(userOrder[0]?.orders || [],"Order fetch succcessfully", 200).send(res)
 }))
 
 

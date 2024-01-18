@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import {addToCart} from './../../dataCenter/slice/cartSlice'
 
 const ProductCard = (props) => {
-  console.log(props.data)
+
   const {_id, name, price , file}=props.data
   const dispatch = useDispatch()
     return (

@@ -15,7 +15,7 @@ const sellerSchema = new mongoose.Schema({
     },
     password:{
         type:String,
-        required:[true, "Password is required"]
+        required:[true, "Password is required"],
     },
     info:{
         name:{

@@ -23,8 +23,8 @@ const Login = () => {
       const id= toast.loading("Signing in please wait")
       try {     
         const response = await useAxios("post", "seller/login", values , )
-        toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })
-        Cookie.set("token",response?.data?.data[0].token , {sameSite: 'None', secure: true})
+        toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })   
+        {!!Cookie.get("token") ? null : window.localStorage.setItem("token",response?.data?.data[0].token)} 
         navigate("/seller/dashboard")
     
       }catch (error) {
@@ -82,6 +82,7 @@ const Login = () => {
 
             <Button color="blue" className="w-full" onClick={formik.handleSubmit} disabled={loading? true : false}> Login </Button>
             <Typography>Already have an account ?  <NavLink to={"/seller/signup"} className="text-blue-300">Signup</NavLink></Typography>
+            
           </div>
         </div>
       </div>

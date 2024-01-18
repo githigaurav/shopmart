@@ -22,9 +22,46 @@ const{
 
 
 home.get("/products", tryCatch(async(req, res)=>{
-    const findProducts = await Seller.findById("659cf20e5f1fdf00f84f9a73").populate("products")
-    console.log(findProducts)
-    ApiResponse.success(findProducts?.products, "Data get successfully",200).send(res)
+    // const findProducts = await Seller.findById("65a68d1c75438ff55dfbdbc5").populate("products")
+    const response = await Seller.aggregate([
+        {
+            $project: {
+              products: 1,
+              _id:0
+            },
+          },
+          {
+            $unwind: '$products',
+          },
+          {
+            $lookup: {
+              from: 'products', // Assuming your product collection is named 'products'
+              localField: 'products',
+              foreignField: '_id',
+              as: 'result',
+            },
+          },
+          {
+                $project: {
+                  products:0
+                }
+          },
+          {
+            $unwind:"$result"
+          },
+          
+          {
+            $group: {
+              _id: null,
+              productsList: {
+                 $addToSet: '$result',
+              }
+            }
+          }
+    ])
+    // console.log(response[0].productsList.length)
+    // ApiResponse.success(findProducts?.products, "Data get successfully",200).send(res)
+    ApiResponse.success(response[0]?.productsList || [], "Data get successfully",200).send(res)
 }))
 
 

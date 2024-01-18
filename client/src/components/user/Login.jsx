@@ -24,6 +24,7 @@ const Login = () => {
         const response = await useAxios("post", "user/login", values , )
         toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })
         Cookie.set("token",response?.data?.data[0].token , {sameSite: 'None', secure: true})
+        navigate("/")
        
       }catch (error) {
         setLoding(true)

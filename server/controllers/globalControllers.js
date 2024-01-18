@@ -23,8 +23,8 @@ const encryptPassword = async(plainPassword)=>{
 }
 
 
-const jwtToken = async (data)=>{
-    const token = jwt.sign(data , process.env.secrectKey ,{expiresIn:"1d"})
+const jwtToken = async (data, key)=>{
+    const token = jwt.sign(data , key ,{expiresIn:"1d"})
     return token   
 }
 
@@ -33,8 +33,8 @@ const verifyPassword = async(password, hash)=>{
     return response    
 }
 
-const verifyToken = async (token)=>{
-    const response = jwt.verify(token, process.env.secrectKey)
+const verifyToken = async (token ,key )=>{
+    const response = jwt.verify(token, key)
     return response
 }
 

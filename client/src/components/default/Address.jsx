@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Input , Button } from '@material-tailwind/react'
 import {address} from './../validation/validation'
 import { useFormik } from 'formik'
 import { useDispatch , useSelector } from 'react-redux'
-import {addDeliveryAddress} from './../../dataCenter/slice/cartSlice'
-import { useNavigate } from 'react-router-dom'
+import {addDeliveryAddress , clearCart} from './../../dataCenter/slice/cartSlice'
+import { Link, useNavigate } from 'react-router-dom'
 import {ToastContainer , Zoom, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import {useAxios} from './../useNetwork/useNetwork'
 const Address = () => {
+
     const data = useSelector((state)=> state.cart.checkout)
+    const cart = useSelector((state) => state.cart.cart)
     const navigate=useNavigate()
     const dispatch = useDispatch()
     const formik = useFormik({
@@ -24,17 +26,19 @@ const Address = () => {
         onSubmit: async (values) => {
           const id= toast.loading("Please wait your order is being placed")
             try {              
-            dispatch(addDeliveryAddress(values))
+            dispatch(addDeliveryAddress(values))  
             const response = await useAxios("post", "user/order", data, )
             toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })
             console.log(response)
            setTimeout(()=>{
+            dispatch(clearCart())
             navigate("/")
            },3000)
             } catch (error) {
-                console.log(error)
-                toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })
-            }finally{
+              console.log('working')
+                
+                toast.update(id, {render:error.response?.data?.message, type:'error', isLoading:false })
+            }finally{           
               setTimeout(()=>{
                 toast.dismiss(id)
               },2000)
@@ -42,7 +46,9 @@ const Address = () => {
             
         }
       })
-      console.log(data)
+
+    
+
   return (
     <>
         <ToastContainer
@@ -109,8 +115,8 @@ const Address = () => {
             error={formik.errors?.pinCode && formik.touched.pinCode ? true : false}
           />
 
-
-          <Button color="blue" className="w-full" onClick={formik.handleSubmit} type='submit'> Continue </Button>
+          <Button color="blue" className="w-full" onClick={formik.handleSubmit} type='submit'> Place Order </Button>
+         
     </div>
         </div>
     </>

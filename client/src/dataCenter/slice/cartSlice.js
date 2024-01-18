@@ -39,11 +39,16 @@ export const productSlice =createSlice({
                 product: item._id,                
                 quantity:1,
                 paymentStatus:"pending",
+                orderStatus:"pending",
                 deliveryAddress: action.payload
-              }))
+                }))
+        },
+        clearCart:(state, action)=>{
+            state.checkout.userOrderList=[]
+            state.cart=[]
         }
 
     }
 })
-export const {addToCart,removeFromCart , addDeliveryAddress} = productSlice.actions
+export const {addToCart,removeFromCart , addDeliveryAddress , clearCart} = productSlice.actions
 export default productSlice.reducer
