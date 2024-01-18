@@ -8,7 +8,7 @@ var cookie = require('cookie-parser')
 // server configuration
 server.use(express.json())
 server.use(cors({
-    origin:["http://localhost:3000", "https://shopmart-liard.vercel.app" ,"https://shopmart-liard.vercel.app"],
+    origin:"*",
     credentials:true
 }))
 server.use(cookie())
