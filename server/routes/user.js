@@ -119,7 +119,36 @@ user.get("/dashboard", tryCatch(async(req, res)=>{
 }))
 
 user.post("/order", verifyUser ,tryCatch(async(req, res)=>{
-    // * getting client unique id from middleware 
+    // // * getting client unique id from middleware 
+    // const {id}=req.info
+    // const orderData={...req.body , userId:id}
+    //  await orderValidation.validateAsync(orderData)
+     
+    // const session = await mongoose.startSession();
+    //                 session.startTransaction();
+    //      //* Saving User Order
+    //     const ordered = await addToMongoDb(orderData, Order)
+    //     // * looping throught orders items
+    //     for(const products of ordered?.userOrderList){
+    //          // * extracting productId so so that we can find products
+    //         const productIds=products.product
+    //         //  * finding Product using product id && expanding seller schema
+    //         const product = await Product.findById(productIds).populate('seller')
+    //         // * Containing seller ids 
+    //         const sellerId= product?.seller._id
+    //         // * finding && updating seller orders so that seller can check is there any order
+    //        await Seller.findByIdAndUpdate(
+    //           sellerId,
+    //           {$push:{orders:products}},
+    //           {runValidator:false}
+    //         )
+    //         }
+    //  await session.commitTransaction();
+    //               session.endSession();
+    // ApiResponse.success([] , "Order has been placed successfully",200).send(res)
+    
+
+    //* getting client unique id from middleware 
     const {id}=req.info
     const orderData={...req.body , userId:id}
      await orderValidation.validateAsync(orderData)

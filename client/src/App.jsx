@@ -37,6 +37,7 @@ console.log(Cookies.get("token"))
               <Route path='/seller/signup' element={<Signup/>}/> 
               <Route path='/seller/login' element={<Login/>}/> 
               <Route path="/seller/dashboard" element={<Dashboard/>}/>
+            
         </Routes>
       </Router>
       
