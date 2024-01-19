@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const dbURL = process.env.DBCON
+const dbURL = process.env.LOCALDBCON
 
 ;(async()=>{
     try {

@@ -78,8 +78,8 @@ user.post("/login", tryCatch(async(req, res)=>{
     const email = clientEmail.toLowerCase()
 
     //* Check is client Email Id is already Exists
-    const isExists = await isDataExists(email , Seller)
-
+    const isExists = await isDataExists(email , User)
+  console.log(isExists)
     // * if user exists then 
     if(!!isExists.length){
 
@@ -165,10 +165,11 @@ user.post("/order", verifyUser ,tryCatch(async(req, res)=>{
             const product = await Product.findById(productIds).populate('seller')
             // * Containing seller ids 
             const sellerId= product?.seller._id
+            console.log(products._id)
             // * finding && updating seller orders so that seller can check is there any order
            await Seller.findByIdAndUpdate(
               sellerId,
-              {$push:{orders:products}},
+              {$push:{orders:products._id}},
               {runValidator:false}
             )
             }
