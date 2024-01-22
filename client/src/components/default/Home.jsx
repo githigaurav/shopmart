@@ -20,33 +20,33 @@ console.log(data)
   return (
     <>
         <>
-          <div className='mt-5 flex flex-col items-center justify-center gap-4'>
+          <div className='mt-5 flex flex-col items-center justify-center gap-4 w-full'>
                 <div className='max-w-[1600px]  flex gap-2 m-auto flex-wrap items-center justify-center'> 
                     {/* <ProductScroll data={data}/>   */}
                     {data.map((item , index)=>{
-                      return <ProductCard data={item}/>
+                      return <ProductCard data={item} key={index}/>
                     })}
                     {data.map((item , index)=>{
-                      return <ProductCard data={item}/>
+                      return <ProductCard data={item} key={index}/>
                     })}    
                     {data.map((item , index)=>{
-                      return <ProductCard data={item}/>
+                      return <ProductCard data={item} key={index}/>
                     })}
                     {data.map((item , index)=>{
-                      return <ProductCard data={item}/>
+                      return <ProductCard data={item} key={index}/>
                     })}
                     {data.map((item , index)=>{
-                      return <ProductCard data={item}/>
+                      return <ProductCard data={item} key={index}/>
                     })}
                     {data.map((item , index)=>{
-                      return <ProductCard data={item}/>
+                      return <ProductCard data={item} key={index}/>
                     })}
                     {data.map((item , index)=>{
-                      return <ProductCard data={item}/>
+                      return <ProductCard data={item} key={index}/>
                     })}
                 </div>   
-                <div>
-                    <Footer></Footer>
+                <div className='w-full'>
+                    <Footer/>
                 </div>             
           </div>
           

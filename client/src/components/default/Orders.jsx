@@ -22,7 +22,7 @@ const Orders = ({handleOrders}) => {
             
                         return (
                         
-                            <Card className="flex-row items-center p-2 gap-20">
+                            <Card className="flex-row items-center p-2 gap-20" key={index}>
                             <Avatar src={product.file} alt="avatar" />
                             <Typography>{product.name}</Typography>
                             <Typography>{product.price}</Typography>

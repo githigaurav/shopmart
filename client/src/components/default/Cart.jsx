@@ -10,7 +10,7 @@ import {
 import Cookie from 'js-cookie'
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import {addToCart, removeFromCart} from './../../dataCenter/slice/cartSlice'
+import {addToCart, removeFromCart , addToCheckOut} from './../../dataCenter/slice/cartSlice'
 
 const Cart = () => {
   const dispatch=useDispatch()
@@ -31,6 +31,9 @@ const Cart = () => {
 console.log(data)
 useEffect(()=>{
   addTotalAmount(data)
+  return(()=>{
+    dispatch(addToCheckOut())
+  })
 },[data])
 
   return (

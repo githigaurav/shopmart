@@ -45,6 +45,9 @@ const addProduct= new yup.ObjectSchema({
     discount:yup.string()
     .required("Please select discount"),
 
+    size:yup.string()
+    .required("Please select size"),
+
     quantity:yup.string()
     .required("Product quantity is required")
     .matches(/^[0-9]+$/, "The Quantity should have numbers only"),

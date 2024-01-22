@@ -14,7 +14,7 @@ import {useFormik} from 'formik'
 import axios from 'axios'
 const newCategory={
     shoes:["Male Shoes", "Female Shoes"],
-    clothes:["Male clohtes","Female clothes"]
+    clothes:["male"]
 }
 import {ToastContainer , Zoom, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -35,6 +35,7 @@ const AddProduct = (props) => {
             discount:'',
             quantity:'',
             discription:'',
+            size:'',
             file:null
         },
         validationSchema:addProduct,
@@ -107,6 +108,13 @@ const AddProduct = (props) => {
                               <Option value='10'>10%</Option>
                               <Option value='20'>20%</Option>
                               <Option value='50'>50%</Option>
+                          </Select>
+
+                          <Select label={formik.touched.size && formik.errors.size ? `${formik.errors.size}`: "Size"} name='size' onChange={(e)=>{formik.setFieldValue("size", e)}} error={formik.touched.size && formik.errors.size ? true : false} onBlur={formik.handleBlur}>
+                              <Option value='m'>M</Option>
+                              <Option value='l'>L</Option>
+                              <Option value='xl'>XL</Option>
+                              <Option value='xxl'>XXL</Option>
                           </Select>
 
                           <Input variant="standard" label={formik.touched.quantity && formik.errors.quantity ? `${formik.errors.quantity}`: "Quantity"} placeholder="" name='quantity' onChange={formik.handleChange} error={formik.touched.quantity && formik.errors.quantity ? true : false} onBlur={formik.handleBlur} />

@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input , Button } from '@material-tailwind/react'
 import {address} from './../validation/validation'
 import { useFormik } from 'formik'
 import { useDispatch , useSelector } from 'react-redux'
-import {addDeliveryAddress , clearCart} from './../../dataCenter/slice/cartSlice'
+import {addDeliveryAddress , addToCheckOut, clearCart} from './../../dataCenter/slice/cartSlice'
 import { Link, useNavigate } from 'react-router-dom'
 import {ToastContainer , Zoom, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -47,8 +47,7 @@ const Address = () => {
         }
       })
 
-    
-
+      
   return (
     <>
         <ToastContainer
@@ -57,8 +56,8 @@ const Address = () => {
              closeOnClick
              transition={Zoom}                     
     />
-        <div className='w-full flex justify-center items-center mt-5'>
-        <div className="w-full bg-white  max-w-2xl flex flex-col gap-5 p-5 rounded-xl items-center">
+        <div className='w-full flex justify-center items-center mt-5 p-2'>
+        <div className="w-full bg-white  max-w-2xl flex flex-col gap-5 py-20 px-10 rounded-xl items-center">
           <Input
             name="houseNo"
             variant="standard"

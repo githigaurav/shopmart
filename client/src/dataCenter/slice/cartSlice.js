@@ -35,12 +35,16 @@ export const productSlice =createSlice({
         },
         addDeliveryAddress:(state, action)=>{
             // state.checkout.deliveryAddress = action.payload
+            state.checkout.userOrderList.map(item => ({
+                deliveryAddress: action.payload
+                }))
+        },
+        addToCheckOut:(state , action)=>{
             state.checkout.userOrderList = state.cart.map(item => ({
                 product: item._id,                
                 quantity:1,
                 paymentStatus:"pending",
                 orderStatus:"pending",
-                deliveryAddress: action.payload
                 }))
         },
         clearCart:(state, action)=>{
@@ -50,5 +54,5 @@ export const productSlice =createSlice({
 
     }
 })
-export const {addToCart,removeFromCart , addDeliveryAddress , clearCart} = productSlice.actions
+export const {addToCart,removeFromCart , addDeliveryAddress , clearCart , addToCheckOut} = productSlice.actions
 export default productSlice.reducer

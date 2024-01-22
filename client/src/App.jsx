@@ -12,19 +12,21 @@ import Login from './components/seller/Login'
 import Dashboard from './components/seller/Dashboard'
 import UserLogin from './components/user/Login'
 import UserSignUp from './components/user/Signup'
-import NavbarMenu from './components/default/Navbar'
+// import NavbarMenu from './components/default/Navbar'
 import Home from './components/default/Home'
 import Cart from './components/default/Cart'
 import Address from './components/default/Address'
 import UserDashboard from './components/default/Dashboard'
 import Cookies from 'js-cookie'
+import Header from './components/default/Header'
 const App = () => {
 
 console.log(Cookies.get("token"))
   return (
    <>   
       <Router>
-      <NavbarMenu/>
+      {/* <NavbarMenu/> */}
+      <Header/>
         <Routes>         
               <Route path='/' element={<Home/>}/>
               <Route path='/cart' element={<Cart/>}/>
@@ -37,6 +39,8 @@ console.log(Cookies.get("token"))
               <Route path='/seller/signup' element={<Signup/>}/> 
               <Route path='/seller/login' element={<Login/>}/> 
               <Route path="/seller/dashboard" element={<Dashboard/>}/>
+              
+              
             
         </Routes>
       </Router>

@@ -24,9 +24,8 @@ const Login = () => {
       try {     
         const response = await useAxios("post", "seller/login", values , )
         toast.update(id, {render:response?.data?.message, type:'success', isLoading:false })   
-        {!!Cookie.get("token") ? null : window.localStorage.setItem("token",response?.data?.data[0].token)} 
-        navigate("/seller/dashboard")
-    
+        window.localStorage.setItem("token",response?.data?.data[0].token)
+        navigate("/seller/dashboard")    
       }catch (error) {
         setLoding(true)
         toast.update(id, {render:error?.response.data?.message, type:'error', isLoading:false }) 

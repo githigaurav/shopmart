@@ -45,7 +45,8 @@ const Dashboard = () => {
     
 
     const handleLogout=()=>{
-        Cookie.remove("token")
+        Cookie.remove("token",{path:'/seller'})
+        window.localStorage.removeItem("token")
         const id = toast.success("Logout Successfully")
             setTimeout(()=>{
                 toast.dismiss(id)
@@ -60,7 +61,7 @@ const Dashboard = () => {
        },3000)
     } 
 
-    {!!Cookie.get("token") ? window.localStorage.setItem("token","hello") : ''}
+   
      
     return (
       <>
