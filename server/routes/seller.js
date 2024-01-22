@@ -112,6 +112,7 @@ seller.post("/login", tryCatch(async(req,res)=>{
             // * Set Cookie in client browser with token and role
             res.cookie('token', generatedToken ,options)
             // * Send Response to client after successfully login
+      
             return ApiResponse.success([{token:generatedToken}], "Login successfully" , 200).send(res)
         
         // * if password doesn't match    
@@ -179,7 +180,7 @@ seller.get('/products', verifySeller , tryCatch(async(req, res)=>{
     const seller = await Seller.findById(id,{createdAt:0,updatedAt:0,__v:0}).populate({path:'products', select:'-createdAt -updatedAt -__v'}).exec()
 
     // * sending response to client
-    return ApiResponse.success(seller.products, "Product fetch successfully" , 200).send(res)
+    return ApiResponse.success(seller?.products, "Product fetch successfully" , 200).send(res)
 }))
 
 seller.get('/orders', verifySeller , tryCatch(async(req, res)=>{
@@ -223,8 +224,7 @@ seller.get('/orders', verifySeller , tryCatch(async(req, res)=>{
           }
       ])
       
-
-    return ApiResponse.success(productsDetails[0].orders, "Order fetched successfully",200).send(res)
+    return ApiResponse.success(productsDetails[0]?.orders || [], "Order fetched successfully",200).send(res)
 }))
 
 seller.post('/test', verifySeller , tryCatch(async(req, res)=>{

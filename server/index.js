@@ -8,12 +8,16 @@ var cookie = require('cookie-parser')
 // server configuration
 server.use(express.json())
 server.use(cors({
-    origin:["http://localhost:3000", "https://shopmart-liard.vercel.app" ,"https://shopmart-liard.vercel.app"],
+    origin:["https://shopmart-liard.vercel.app","http://localhost:3000"],
+    methods:["GET","POST","DELETE","PUT"],
     credentials:true
 }))
+
+
 server.use(cookie())
 // importing routes
 const {seller, user , home} = require("./routes/index")
+
 
 // settingup routes
 server.use('/seller', seller)

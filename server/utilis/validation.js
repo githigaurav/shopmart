@@ -42,14 +42,14 @@ const productValidation = Joi.object({
       'any.required': 'Product name is required', 
       'string.empty': 'Product name cannot be empty'  
     }) 
-    .regex(/^\s*([a-zA-Z]+(\s+[a-zA-Z]+)*)?\s*$/)
+    .regex(/^[a-zA-Z !@#$%^&*()_+=\[\]{};':",.\/\|-]+(\s[a-zA-Z !@#$%^&*()_+=\[\]{};':",.\/\|-]+)*\s*$/)
     .messages({
       'string.pattern.base': 'Product name must be a string'  
     }),
 
     brand: Joi.string()
     .required()
-    .regex(/^\s*([a-zA-Z]+(\s+[a-zA-Z]+)*)?\s*$/)
+    .regex(/^[a-zA-Z !@#$%^&*()_+=\[\]{};':",.\/\|-]+(\s[a-zA-Z !@#$%^&*()_+=\[\]{};':",.\/\|-]+)*\s*$/)
     .messages({
       'string.pattern.base': 'Brand name must be a string',
       'any.required': 'Brand name is required', 
@@ -86,9 +86,7 @@ const productValidation = Joi.object({
 
     discription: Joi.string()
     .required()
-    .regex(/^\s*([a-zA-Z]+(\s+[a-zA-Z]+)*)?\s*$/)
     .messages({
-      'string.pattern.base': 'Discription must be a string'  ,
       'any.required': 'Discription  is required', 
       'string.empty': 'Discription cannot be empty'  
     }),

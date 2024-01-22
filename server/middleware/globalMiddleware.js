@@ -12,7 +12,7 @@ const verifySeller = async(req, res, next)=>{
   
 
    let token = req.cookies.token || req.headers.authorization.replace("Bearer ",'')
-   console.log(token)
+  
 
    try {
    //  const token = req?.cookies?.token

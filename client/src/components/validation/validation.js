@@ -18,7 +18,7 @@ const addProduct= new yup.ObjectSchema({
     .required("Product name is required")
     .min(3, "Minimum 3 character is required")
     .max(72, "Maximum character limit is reached")
-    .matches(/^[a-zA-Z]+$/, "The name should have letters only"),
+    .matches(/^[a-zA-Z0-9 &%.,'-]+( [a-zA-Z0-9 &%.,'-]+)*$/, "The name should have letters only number or symbol"),
 
     brand:yup.string().required("Brand name is required")
     .min(3, "Minimum 3 character is required")

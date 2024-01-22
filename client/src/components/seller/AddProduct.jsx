@@ -97,9 +97,8 @@ const AddProduct = (props) => {
                               <Option value='12'>12 Months</Option>
                           </Select>
                           <Select label={formik.touched.paymentMethod && formik.errors.paymentMethod ? `${formik.errors.paymentMethod}`: "Payment Method"} name='paymentMethod' onChange={(e)=>{formik.setFieldValue("paymentMethod", e)}} error={formik.touched.paymentMethod && formik.errors.paymentMethod ? true : false} onBlur={formik.handleBlur}>
-                              <Option value='cash'>Cash on delivery</Option>
                               <Option value='online'>Online</Option>
-                              <Option value='both'>Both</Option>
+                              <Option value='offline'>Offline</Option>
                           </Select>
 
                       </div>

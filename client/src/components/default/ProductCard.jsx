@@ -18,12 +18,12 @@ const ProductCard = (props) => {
   const dispatch = useDispatch()
     return (
         <>
-          <Card className="w-[200px] max-w-[300px] min-w-[200px] ">
-       <CardHeader shadow={false} floated={false} className="h-[150px]">
+          <Card className="w-[300px] max-w-[300px] min-w-[200px] rounded-none ">
+       <CardHeader shadow={false} floated={false} className="h-[300px] rounded-none">
          <img
            src={file}
            alt="card-image"
-           className="h-full w-full object-cover hover:scale-150 transition"
+           className="h-full w-full object-cover hover:scale-150 transition "
          />
        </CardHeader>
        <CardBody>

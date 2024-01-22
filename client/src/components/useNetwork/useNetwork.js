@@ -3,7 +3,7 @@ import { useState , useEffect} from 'react'
 import Cookie from 'js-cookie'
 const networkPath = window.location.host === 'localhost:3000' ? "http://localhost:3001" : "https://shopmart-server.vercel.app"
 
-let token = window.localStorage.getItem("token")
+let token =!Cookie.get("token") ? window.localStorage.getItem("token") : Cookie.get("token")
 
 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 export const useAxios = async (
